@@ -8,20 +8,22 @@ import Login from "./views/login";
 import Accounts from "./views/accounts";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import AccountsNavigator from "./navigation/accounts";
-
+import { AuthProvider } from "./context/AuthContext";
 
 const Menu = createDrawerNavigator();
 
 export default function App() {
   return(
-    <NavigationContainer>
-      <Menu.Navigator>
-        <Menu.Screen name="Main" component={Main}/>
-        <Menu.Screen name="Login" component={Login}/>
-        <Menu.Screen name="Home" component={Home}/>
-        <Menu.Screen name="Accounts" component={AccountsNavigator}/>
-      </Menu.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <Menu.Navigator>
+          <Menu.Screen name="Main" component={Main}/>
+          <Menu.Screen name="Login" component={Login}/>
+          <Menu.Screen name="Home" component={Home}/>
+          <Menu.Screen name="Accounts" component={AccountsNavigator}/>
+        </Menu.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   )
 }
 

@@ -11,14 +11,18 @@ import {
 import { MyTextInput, MyBoton } from "../../components/";
 import axios from "axios";
 import { passwordValidation } from "../../utils/validations";
+import { useContext } from "react/cjs/react.production.min";
+import { AuthContext } from "../../context/AuthContext";
 
 const ImgLogo = require("../../assets/MLogo.jpg");
 
 export default function Login() {
   const [Loading, setLoading] = React.useState(false);
   const [PasswordVisible, setPasswordVisible] = React.useState(false);
-  const [Error, setError] = React.useState("")
-  const [User, setUser] = React.useState({email:"", password:""})
+  const [Error, setError] = React.useState("");
+  const [User, setUser] = React.useState({email:"", password:""});
+  const [tokens, setTokens]= React.useState(null);//
+  //const val = useContext(AuthContext);
 
   const enviarFormulario = () => {
     if (User.email === "") {
@@ -31,6 +35,7 @@ export default function Login() {
     }
     enviarUsuario();
   };
+
   const enviarUsuario = async () => {
     try {
       setLoading(true);
@@ -38,6 +43,14 @@ export default function Login() {
         "https://mymoneyhackademy.herokuapp.com/login/",
         User
       );
+
+      //aqui es donde puedo leer los tokens, y ahora dónde lo guardo
+      console.log(response.data.tokens);
+      const tokens = JSON.parse(response.data.tokens.replace(/'/g, '"'));
+      console.log(tokens.access);
+      //voy a intentar extraer el access token
+
+
 
       setLoading(false);
     } catch (error) { 
@@ -52,12 +65,15 @@ export default function Login() {
     setUser({
       ...User, 
       [name]:text
-    })
+    });
   }
+
+  //console.log("Tus perritos Lu");
   
 
   return (
     <View style={styles.container}>
+      
       <Image source={ImgLogo} style={styles.logoMoney} />
       <Text style={styles.ingresaTexto}> Bienvenido</Text>
       <MyTextInput
