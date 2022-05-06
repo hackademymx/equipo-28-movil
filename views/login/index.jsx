@@ -15,17 +15,16 @@ import { passwordValidation } from "../../utils/validations";
 const ImgLogo = require("../../assets/MLogo.jpg");
 
 export default function Login() {
-  const [Correo, setCorreo] = React.useState("");
-  const [Contraseña, setContraseña] = React.useState("");
   const [Loading, setLoading] = React.useState(false);
   const [PasswordVisible, setPasswordVisible] = React.useState(false);
   const [Error, setError] = React.useState("")
+  const [User, setUser] = React.useState({email:"", password:""})
 
   const enviarFormulario = () => {
-    if (Correo === "") {
+    if (User.email === "") {
       return alert("Necesita llenar el campo del Correo");
     }
-    if (!passwordValidation.test(Contraseña)) {
+    if (!passwordValidation.test(User.password)) {
       return alert(
         "La contraseña debe contener 6-20 Caracteres 1Mayusc, 1Caracter, 1Núm."
       );
@@ -37,7 +36,7 @@ export default function Login() {
       setLoading(true);
       const response = await axios.post(
         "https://mymoneyhackademy.herokuapp.com/login/",
-        { email: Correo, password: Contraseña }
+        User
       );
 
       setLoading(false);
@@ -48,6 +47,15 @@ export default function Login() {
       console.error(error);
     }
   };
+
+  const changeUser= (text, name ) => {
+    setUser({
+      ...User, 
+      [name]:text
+    })
+  }
+  
+
   return (
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
@@ -55,16 +63,16 @@ export default function Login() {
       <MyTextInput
         label="Correo electrónico"
         place="e.g. tu_nombre@mail.com"
-        value={Correo}
-        setValue={setCorreo}
+        value={User.email}
+        setValue={(text) => changeUser(text, "email")}
       />
 
       <MyTextInput
         label="Contraseña"
         place="6-20 Caracteres 1Mayusc, 1Caracter, 1Núm."
         security={!PasswordVisible}
-        value={Contraseña}
-        setValue={setContraseña}
+        value={User.password}
+        setValue={(text) => changeUser(text, "password")}
         icon={PasswordVisible ? "eye-slash" : "eye"}
         onIconclick={() => setPasswordVisible(!PasswordVisible)}
       />

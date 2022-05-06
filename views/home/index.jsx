@@ -17,7 +17,7 @@ import { passwordValidation } from "../../utils/validations";
 const ImgLogo = require("../../assets/MLogo.jpg");
 
 
-export default function App({navigation}) {
+export default function Home({navigation}) {
   const [Correo, setCorreo] = React.useState("");
   const [Contraseña, setContraseña] = React.useState("");
   const [ConfContra, setConfiContra] = React.useState("");
