@@ -139,21 +139,3 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-// const Home = () => {
-//     return(
-//       <View style={styles.homescreen}>
-//         <Text>Homescreen</Text>
-//       </View>
-//     )
-//   }
-
-//   const styles = StyleSheet.create({
-//     homescreen:{
-//       flex: 1,
-//       justifyContent: "center",
-//       alignItems: "center"
-//     },
-//   });
-//   export default Home
