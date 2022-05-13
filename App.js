@@ -9,7 +9,9 @@ import Accounts from "./views/accounts";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import AccountsNavigator from "./navigation/accounts";
 import { AuthProvider } from "./context/AuthContext";
-
+import TagsNavigator from "./navigation/tags";
+import ExpensesNavigator from "./navigation/expenses";
+import IncomesNavigator from "./navigation/incomes";
 const Menu = createDrawerNavigator();
 
 export default function App() {
@@ -17,10 +19,13 @@ export default function App() {
     <AuthProvider>
       <NavigationContainer>
         <Menu.Navigator>
-          <Menu.Screen name="Main" component={Main}/>
-          <Menu.Screen name="Login" component={Login}/>
-          <Menu.Screen name="Home" component={Home}/>
-          <Menu.Screen name="Accounts" component={AccountsNavigator}/>
+          <Menu.Screen name="Pantalla Principal" component={Main}/>
+          <Menu.Screen name="Inicio de Sesión" component={Login}/>
+          <Menu.Screen name="Registro" component={Home}/>
+          <Menu.Screen name="Cuentas" component={AccountsNavigator}/>
+          <Menu.Screen name="Etiquetas" component={TagsNavigator}/>
+          <Menu.Screen name="Gastos" component={ExpensesNavigator}/>
+          <Menu.Screen name="Ingresos" component={IncomesNavigator}/>
         </Menu.Navigator>
       </NavigationContainer>
     </AuthProvider>

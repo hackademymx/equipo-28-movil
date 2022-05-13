@@ -15,14 +15,14 @@ import { Picker } from "@react-native-picker/picker";
 const ImgLogo = require("../../assets/MLogo.jpg");
 
 //"https://mymoneyhackademy.herokuapp.com/login/"
-export default function Accounts({ navigation }) {
-  const [cuenta, setCuenta] = React.useState({
+export default function Expenses({ navigation }) {
+  const [gasto, setGasto] = React.useState({
+    description: "",
+    payment_date: "",
+    concept: "",
     account_name: "",
-    type_account: "",
-    account_num: "",
-    current_balance: "",
     account_cbe: "",
-    cutoff_date: "",
+    ticket_img: "",
   });
   const [Loading, setLoading] = React.useState(false);
   const [Error, setError] = React.useState("");
@@ -36,7 +36,7 @@ export default function Accounts({ navigation }) {
     });
   };
 
-  const enviarCuenta = async () => {
+  const enviarGasto = async () => {
     const access_token =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUxODc3NDAyLCJpYXQiOjE2NTE4NzcxMDIsImp0aSI6ImI2YzkwMjlkOTBhODQ3MDJiZWQ3OTU5YmI3N2U1NTMxIiwidXNlcl9pZCI6NDh9.sLXmgxmR5Ix_CMTF2w9h7fTmyarvPIVt2ZGINozJ-gU";
     const headers = {
@@ -46,8 +46,8 @@ export default function Accounts({ navigation }) {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://mymoneyhackademy.herokuapp.com/accounts/",
-        cuenta,
+        "https://mymoneyhackademy.herokuapp.com/Expenses/",
+        gasto,
         { headers: headers }
       );
 
@@ -61,9 +61,9 @@ export default function Accounts({ navigation }) {
     }
   };
 
-  const changeCuenta = (text, name) => {
-    setCuenta({
-      ...cuenta,
+  const changeGasto = (text, name) => {
+    setGasto({
+      ...gasto,
       [name]: text,
     });
   };
@@ -72,49 +72,50 @@ export default function Accounts({ navigation }) {
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
-        label="Nombre:"
-        place="e.g. cuenta de nómina"
-        value={cuenta.account_name}
-        setValue={(text) => changeCuenta(text, "account_name")}
+        label="Nombre de Gasto:"
+        place=" "
+        value={gasto.description}
+        setValue={(text) => changeGasto(text, "description")}
       />
-      <Text>Tipo de Cuenta:</Text>
+      <MyTextInput
+        label="Fecha del Gasto:"
+        place=" "
+        value={gasto.payment_date}
+        setValue={(text) => changeGasto(text, "payment_date")}
+      />
+      <MyTextInput
+        label="Importe del Gasto:"
+        place=" "
+        value={gasto.current_balance}
+        setValue={(text) => changeGasto(text, "current_balance")}
+      />
+      <Text>Concepto del Gasto:</Text>
       <Picker
         selectedValue={PickerItems}
         onValueChange={(itemValue, itemIndex) => SetPickerItems(itemValue)}
       >
-        <Picker.Item label="Cuenta Corriente" value="Cuenta Corriente" />
-        <Picker.Item label="Chequera" value="Chequera" />
-        <Picker.Item label="Ahorros" value="Ahorros" />
-        <Picker.Item label="Nómina" value="Nómina" />
-        <Picker.Item label="Inversiones" value="Inversiones" />
-        <Picker.Item label="Cuenta en Dólares" value="Cuenta en Dólares" />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+      </Picker>
+      
+      <Text>Cuenta Asociada:</Text>
+      <Picker
+        selectedValue={PickerItems}
+        onValueChange={(itemValue, itemIndex) => SetPickerItems(itemValue)}
+      >
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
       </Picker>
 
-      <MyTextInput
-        label="Número de cuenta:"
-        place=" "
-        value={cuenta.account_num}
-        setValue={(text) => changeCuenta(text, "account_num")}
-      />
-      <MyTextInput
-        label="Clabe Interbancaria:"
-        place=" "
-        value={cuenta.account_cbe}
-        setValue={(text) => changeCuenta(text, "account_cbe")}
-      />
-      <MyTextInput
-        label="Saldo Actual:"
-        place=" "
-        value={cuenta.current_balance}
-        setValue={(text) => changeCuenta(text, "current_balance")}
-      />
-      <MyTextInput
-        label="Fecha de Corte:"
-        place=" "
-        value={cuenta.cutoff_date}
-        setValue={(text) => changeCuenta(text, "cutoff_date")}
-      />
-      <MyBoton text="GUARDAR" onPress={enviarCuenta} />
+      <MyBoton text="GUARDAR" onPress={enviarGasto} />
     </View>
   );
 }

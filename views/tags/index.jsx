@@ -14,19 +14,16 @@ import { Picker } from "@react-native-picker/picker";
 
 const ImgLogo = require("../../assets/MLogo.jpg");
 
-//"https://mymoneyhackademy.herokuapp.com/login/"
-export default function Accounts({ navigation }) {
-  const [cuenta, setCuenta] = React.useState({
-    account_name: "",
-    type_account: "",
-    account_num: "",
-    current_balance: "",
-    account_cbe: "",
-    cutoff_date: "",
+
+export default function Tags({ navigation }) {
+  const [etiqueta, setEtiqueta] = React.useState({
+    description: "",
+    tag_type: "",
+    clasification: "",
+    color: "",
   });
   const [Loading, setLoading] = React.useState(false);
   const [Error, setError] = React.useState("");
-  // const[OpenPicker, SetOpenPicker]= React.useState(false)
   const [PickerItems, SetPickerItems] = React.useState();
 
   const ChangeUserInputs = (propiedad, value) => {
@@ -36,7 +33,7 @@ export default function Accounts({ navigation }) {
     });
   };
 
-  const enviarCuenta = async () => {
+  const enviarEtiqueta = async () => {
     const access_token =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUxODc3NDAyLCJpYXQiOjE2NTE4NzcxMDIsImp0aSI6ImI2YzkwMjlkOTBhODQ3MDJiZWQ3OTU5YmI3N2U1NTMxIiwidXNlcl9pZCI6NDh9.sLXmgxmR5Ix_CMTF2w9h7fTmyarvPIVt2ZGINozJ-gU";
     const headers = {
@@ -47,7 +44,7 @@ export default function Accounts({ navigation }) {
       setLoading(true);
       const response = await axios.post(
         "https://mymoneyhackademy.herokuapp.com/accounts/",
-        cuenta,
+        etiqueta,
         { headers: headers }
       );
 
@@ -61,9 +58,9 @@ export default function Accounts({ navigation }) {
     }
   };
 
-  const changeCuenta = (text, name) => {
-    setCuenta({
-      ...cuenta,
+  const changeEtiqueta = (text, name) => {
+    setEtiqueta({
+      ...etiqueta,
       [name]: text,
     });
   };
@@ -72,49 +69,43 @@ export default function Accounts({ navigation }) {
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
-        label="Nombre:"
-        place="e.g. cuenta de nómina"
-        value={cuenta.account_name}
-        setValue={(text) => changeCuenta(text, "account_name")}
+        label="Descripción:"
+        place=" "
+        value={etiqueta.account_name}
+        setValue={(text) => changeEtiqueta(text, "description")}
       />
-      <Text>Tipo de Cuenta:</Text>
+    <Text>Tipo:</Text>
       <Picker
         selectedValue={PickerItems}
         onValueChange={(itemValue, itemIndex) => SetPickerItems(itemValue)}
       >
-        <Picker.Item label="Cuenta Corriente" value="Cuenta Corriente" />
-        <Picker.Item label="Chequera" value="Chequera" />
-        <Picker.Item label="Ahorros" value="Ahorros" />
-        <Picker.Item label="Nómina" value="Nómina" />
-        <Picker.Item label="Inversiones" value="Inversiones" />
-        <Picker.Item label="Cuenta en Dólares" value="Cuenta en Dólares" />
+        <Picker.Item label="Gasto" value="Gasto" />
+        <Picker.Item label="Ingreso" value="Ingreso" />
+
       </Picker>
 
-      <MyTextInput
-        label="Número de cuenta:"
-        place=" "
-        value={cuenta.account_num}
-        setValue={(text) => changeCuenta(text, "account_num")}
-      />
-      <MyTextInput
-        label="Clabe Interbancaria:"
-        place=" "
-        value={cuenta.account_cbe}
-        setValue={(text) => changeCuenta(text, "account_cbe")}
-      />
-      <MyTextInput
-        label="Saldo Actual:"
-        place=" "
-        value={cuenta.current_balance}
-        setValue={(text) => changeCuenta(text, "current_balance")}
-      />
-      <MyTextInput
-        label="Fecha de Corte:"
-        place=" "
-        value={cuenta.cutoff_date}
-        setValue={(text) => changeCuenta(text, "cutoff_date")}
-      />
-      <MyBoton text="GUARDAR" onPress={enviarCuenta} />
+      <Text>Clasificación:</Text>
+      <Picker
+        selectedValue={PickerItems}
+        onValueChange={(itemValue, itemIndex) => SetPickerItems(itemValue)}
+      >
+        <Picker.Item label="Fijo" value="Fijo" />
+        <Picker.Item label="Variable" value="Variable" />
+
+      </Picker>
+
+      <Text>Color:</Text>
+      <Picker
+        selectedValue={PickerItems}
+        onValueChange={(itemValue, itemIndex) => SetPickerItems(itemValue)}
+      >
+        <Picker.Item label=" " value=" " />
+        <Picker.Item label=" " value=" " />
+
+      </Picker>
+      
+      
+      <MyBoton text="GUARDAR" onPress={enviarEtiqueta} />
     </View>
   );
 }
