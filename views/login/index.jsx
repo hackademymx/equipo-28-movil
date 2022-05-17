@@ -14,16 +14,20 @@ import { passwordValidation } from "../../utils/validations";
 import { useContext } from "react/cjs/react.production.min";
 import { AuthContext } from "../../context/AuthContext";
 
+
 const ImgLogo = require("../../assets/MLogo.jpg");
 
-export default function Login() {
+export default function Inicio() {
   const [Loading, setLoading] = React.useState(false);
   const [PasswordVisible, setPasswordVisible] = React.useState(false);
   const [Error, setError] = React.useState("");
   const [User, setUser] = React.useState({email:"", password:""});
   const [tokens, setTokens]= React.useState(null);//
-  //const val = useContext(AuthContext);
+ 
 
+  const LoginScreen = ({navigation}) => {
+    const {signIn} = React.useContext(AuthContext)
+}
   const enviarFormulario = () => {
     if (User.email === "") {
       return alert("Necesita llenar el campo del Correo");
@@ -44,14 +48,6 @@ export default function Login() {
         User
       );
 
-      //aqui es donde puedo leer los tokens, y ahora dónde lo guardo
-      console.log(response.data.tokens);
-      const tokens = JSON.parse(response.data.tokens.replace(/'/g, '"'));
-      console.log(tokens.access);
-      //voy a intentar extraer el access token
-
-
-
       setLoading(false);
     } catch (error) { 
         const data= error.response.data
@@ -68,8 +64,6 @@ export default function Login() {
     });
   }
 
-  //console.log("Tus perritos Lu");
-  
 
   return (
     <View style={styles.container}>

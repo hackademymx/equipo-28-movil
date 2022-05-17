@@ -1,34 +1,58 @@
-import "react-native-gesture-handler";
+
+import{View, ActivityIndicator} from "react-native";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Main from "./views/main";
-import Home from "./views/home";
-import Login from "./views/login";
-import Accounts from "./views/accounts";
+import Principal from "./views/main";
+import Registro from "./views/home";
+import Inicio from "./views/login";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import AccountsNavigator from "./navigation/accounts";
-import { AuthProvider } from "./context/AuthContext";
 import TagsNavigator from "./navigation/tags";
 import ExpensesNavigator from "./navigation/expenses";
 import IncomesNavigator from "./navigation/incomes";
+import { AuthContext } from "./context/AuthContext";
 const Menu = createDrawerNavigator();
 
-export default function App() {
+const App = () => {
+  const [loading, setLoading] = React.useState(true);
+  const [userToken, setUserToken] = React.useState(null);
+  const authContext = React.useMemo(() => ({
+    singIn: () => {
+      setUserToken();
+      setLoading(false);
+    },
+    singOut: () => {
+      setUserToken(null);
+      setLoading(false);
+    },
+    singUp: () => {
+      setUserToken();
+      setLoading(false);
+    },
+  }));
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
+
+  
   return(
-    <AuthProvider>
+    <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         <Menu.Navigator>
-          <Menu.Screen name="Pantalla Principal" component={Main}/>
-          <Menu.Screen name="Inicio de Sesión" component={Login}/>
-          <Menu.Screen name="Registro" component={Home}/>
+          <Menu.Screen name="Principal" component={Principal}/>
+          <Menu.Screen name="Inicio" component={Inicio}/>
+          <Menu.Screen name="Registro" component={Registro}/>
           <Menu.Screen name="Cuentas" component={AccountsNavigator}/>
           <Menu.Screen name="Etiquetas" component={TagsNavigator}/>
           <Menu.Screen name="Gastos" component={ExpensesNavigator}/>
           <Menu.Screen name="Ingresos" component={IncomesNavigator}/>
         </Menu.Navigator>
       </NavigationContainer>
-    </AuthProvider>
+    </AuthContext.Provider>
   )
 }
 
+export default App

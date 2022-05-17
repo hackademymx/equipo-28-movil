@@ -5,17 +5,17 @@ import { TouchableOpacity } from "react-native-web";
 
 const ImgLogo = require("../../assets/logon.jpg");
 
-const Main = ({navigation}) => {
+const Principal = ({navigation}) => {
     return (
       <SafeAreaView style={styles.margen}>
         <View>
           <Text style={styles.container}>Bienvenido</Text>
         </View>
         <Image source={ImgLogo} style={styles.logoMoney} />
-        <TouchableOpacity style={styles.boton1} onPress={() => navigation.navigate("Home")}>
+        <TouchableOpacity style={styles.boton1} onPress={() => navigation.navigate("Registro")}>
           <Text style={styles.texto1}>REGISTRO</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.boton2} onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity style={styles.boton2} onPress={() => navigation.navigate("Inicio")}>
           <Text style={styles.texto2}>INICIA SESION</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -82,4 +82,4 @@ const Main = ({navigation}) => {
     },
   });
 
-export default Main
+export default Principal

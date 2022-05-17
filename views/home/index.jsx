@@ -7,17 +7,19 @@ import {
   Image,
   Picker,
   TextInput,
-} from "react-native";
+  Alert,
+  } from "react-native";
 import { MyTextInput, MyBoton } from "../../components/";
 import axios from "axios";
 import { passwordValidation } from "../../utils/validations";
 
 
 
+
 const ImgLogo = require("../../assets/MLogo.jpg");
 
 
-export default function Home({navigation}) {
+export default function Registro({navigation}) {
   const [Correo, setCorreo] = React.useState("");
   const [Contraseña, setContraseña] = React.useState("");
   const [ConfContra, setConfiContra] = React.useState("");
@@ -51,7 +53,8 @@ export default function Home({navigation}) {
       );
 
       setLoading(false);
-      navigation.navigate("Login")
+      Alert.alert("Bienvenido, Revisa tu correo")
+      navigation.navigate("Inicio")
     } catch (error) {
       setLoading(false);
       console.error(error);
@@ -140,20 +143,3 @@ const styles = StyleSheet.create({
 });
 
 
-
-// const Home = () => {
-//     return(
-//       <View style={styles.homescreen}>
-//         <Text>Homescreen</Text>
-//       </View>
-//     )
-//   }
-
-//   const styles = StyleSheet.create({
-//     homescreen:{
-//       flex: 1,
-//       justifyContent: "center",
-//       alignItems: "center"
-//     },
-//   });
-//   export default Home

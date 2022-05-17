@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { MyTextInput, MyBoton } from "../../components/";
 import { Picker } from "@react-native-picker/picker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ImgLogo = require("../../assets/MLogo.jpg");
 
@@ -26,8 +28,8 @@ export default function Expenses({ navigation }) {
   });
   const [Loading, setLoading] = React.useState(false);
   const [Error, setError] = React.useState("");
-  // const[OpenPicker, SetOpenPicker]= React.useState(false)
   const [PickerItems, SetPickerItems] = React.useState();
+  const [startDate, setStartDate] = React.useState(new Date());
 
   const ChangeUserInputs = (propiedad, value) => {
     setUser({
@@ -67,7 +69,7 @@ export default function Expenses({ navigation }) {
       [name]: text,
     });
   };
-
+ 
   return (
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
@@ -77,12 +79,9 @@ export default function Expenses({ navigation }) {
         value={gasto.description}
         setValue={(text) => changeGasto(text, "description")}
       />
-      <MyTextInput
-        label="Fecha del Gasto:"
-        place=" "
-        value={gasto.payment_date}
-        setValue={(text) => changeGasto(text, "payment_date")}
-      />
+      <Text>Fecha del Gasto:</Text>
+      <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+      
       <MyTextInput
         label="Importe del Gasto:"
         place=" "

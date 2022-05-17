@@ -9,10 +9,13 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import { MyTextInput, MyBoton } from "../../components/";
+import { MyTextInput, MyBoton } from "../../../components/";
 import { Picker } from "@react-native-picker/picker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const ImgLogo = require("../../assets/MLogo.jpg");
+
+const ImgLogo = require("../../../assets/MLogo.jpg");
 
 //"https://mymoneyhackademy.herokuapp.com/login/"
 export default function Accounts({ navigation }) {
@@ -26,8 +29,8 @@ export default function Accounts({ navigation }) {
   });
   const [Loading, setLoading] = React.useState(false);
   const [Error, setError] = React.useState("");
-  // const[OpenPicker, SetOpenPicker]= React.useState(false)
   const [PickerItems, SetPickerItems] = React.useState();
+  const [startDate, setStartDate] = React.useState(new Date());
 
   const ChangeUserInputs = (propiedad, value) => {
     setUser({
@@ -108,12 +111,8 @@ export default function Accounts({ navigation }) {
         value={cuenta.current_balance}
         setValue={(text) => changeCuenta(text, "current_balance")}
       />
-      <MyTextInput
-        label="Fecha de Corte:"
-        place=" "
-        value={cuenta.cutoff_date}
-        setValue={(text) => changeCuenta(text, "cutoff_date")}
-      />
+      <Text>Fecha de Corte:</Text>
+      <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
       <MyBoton text="GUARDAR" onPress={enviarCuenta} />
     </View>
   );
