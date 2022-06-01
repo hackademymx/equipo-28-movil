@@ -22,7 +22,7 @@ const HomeScreen = ({navigation}) => {
     account_fkey: "",
     amount: "",
     flow_type: "",
-    image: "null",
+    image: null,
     });
 
   const [Error, setError] = React.useState("");
@@ -81,7 +81,7 @@ const HomeScreen = ({navigation}) => {
       />
 
        <MyTextInput
-        label="Fecha del Gasto:"
+        label="ID cuenta:"
         place=" "
         value={gasto.account_fkey}
         setValue={(text) => changeGasto(text, "account_fkey")}
@@ -95,7 +95,7 @@ const HomeScreen = ({navigation}) => {
       />
 
       <MyTextInput
-        label="Concepto de Gasto:"
+        label="Egreso o Ingreso:"
         place=" "
         value={gasto.flow_type}
         setValue={(text) => changeGasto(text, "flow_type")}
