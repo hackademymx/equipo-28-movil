@@ -19,7 +19,7 @@ const ImgLogo = require("../../../assets/MLogo.jpg");
 const HomeScreen = ({navigation}) => {
  
 
-  const [cuenta, setCuenta] = React.useState({
+  const [ingreso, setIngreso] = React.useState({
     account_name: "",
     type_account: "",
     account_num: "",
@@ -35,7 +35,7 @@ const HomeScreen = ({navigation}) => {
 
   const {userInfo} = useContext(AuthContext);
 
-  const enviarCuenta = async () => {
+  const enviarIngreso = async () => {
 
     const access_token = userInfo.tokens.access;
     const headers = {
@@ -45,13 +45,13 @@ const HomeScreen = ({navigation}) => {
     try { 
       
       setLoading(true);
-      const response = await axios.post(`${BASE_URL}/accounts/`,
-        cuenta,
+      const response = await axios.post(`${BASE_URL}/incomes/`,
+        ingreso,
         { headers: headers }
       );
 
       setLoading(false);
-      alert('Cuenta registrada');
+      alert('Ingreso registrado');
     } catch (error) {
       
       const data = error.response.data;
@@ -62,9 +62,9 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
-  const changeCuenta = (text, name) => {
-    setCuenta({
-      ...cuenta,
+  const changeIngreso = (text, name) => {
+    setIngreso({
+      ...ingreso,
       [name]: text,
     });
   };
@@ -74,27 +74,20 @@ const HomeScreen = ({navigation}) => {
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
         label="Nombre:"
-        place="e.g. cuenta de nómina"
-        value={cuenta.account_name}
-        setValue={(text) => changeCuenta(text, "account_name")}
+        place="e.g. Ingreso de nómina"
+        value={ingreso.account_name}
+        setValue={(text) => changeIngreso(text, "incomes_name")}
       />
-      <Text>Tipo de Cuenta:</Text>
-      {/*
-      <MyTextInput
-        label="Tipo de cuenta:"
-        place="e.g. ahorro"
-        value={cuenta.type_account}
-        setValue={(text) => changeCuenta(text, "type_account")}
-      />
-  */}
+      <Text>Tipo de ingreso:</Text>
+      
       
       <Picker
-        selectedValue={cuenta.type_account}
-        onValueChange={(text) => changeCuenta(text, "type_account")}
-        placeholder="Tipo de cuenta"
+        selectedValue={ingreso.type_account}
+        onValueChange={(text) => changeIngreso(text, "type_income")}
+        placeholder="Tipo de ingreso"
         mode = "dropdown"
       >
-        <Picker.Item label="Selecciona el tipo de cuenta" />
+        <Picker.Item label="Selecciona el tipo de ingreso" />
         <Picker.Item label="Efectivo" value="EFECTIVO" />
         <Picker.Item label="Crédito" value="CREDITO" />
         <Picker.Item label="Ahorros" value="AHORRO" />
@@ -104,44 +97,44 @@ const HomeScreen = ({navigation}) => {
         <Picker.Item label="Vales" value="VALES" />
       </Picker>
 
-      {cuenta.type_account!="EFECTIVO"&&<MyTextInput
-        label="Número de cuenta:"
+      {ingreso.type_account!="EFECTIVO"&&<MyTextInput
+        label="Número de ingreso:"
         place=" "
-        value={cuenta.account_num}
-        setValue={(text) => changeCuenta(text, "account_num")}
+        value={ingreso.account_num}
+        setValue={(text) => changeIngreso(text, "account_num")}
       />}
 
       <MyTextInput
         label="Saldo Actual:"
         place=" "
-        value={cuenta.current_balance}
-        setValue={(text) => changeCuenta(text, "current_balance")}
+        value={ingreso.current_balance}
+        setValue={(text) => changeIngreso(text, "current_balance")}
       />
       {/*<Text>Fecha de Corte:</Text>*/}
 
       <MyTextInput
         label="Clabe Interbancaria:"
         place=" "
-        value={cuenta.account_cbe}
-        setValue={(text) => changeCuenta(text, "account_cbe")}
+        value={ingreso.account_cbe}
+        setValue={(text) => changeIngreso(text, "account_cbe")}
       />
       
 
       <MyTextInput
         label="Fecha de corte:"
         place=" e.g. 2022-12-31 "
-        value={cuenta.cutoff_date}
-        setValue={(text) => changeCuenta(text, "cutoff_date")}
+        value={ingreso.cutoff_date}
+        setValue={(text) => changeIngreso(text, "cutoff_date")}
       />
 
 {/*}
       <DatePicker 
-        selected={cuenta.cutoff_date} 
-        onChange={(text) => changeCuenta(text, "cutoff_date")} 
+        selected={ingreso.cutoff_date} 
+        onChange={(text) => changeingreso(text, "cutoff_date")} 
       />
 */}
 
-      <MyBoton text="GUARDAR" onPress={enviarCuenta} />
+      <MyBoton text="GUARDAR" onPress={enviarIngreso} />
     </View>
   );
 }
@@ -163,40 +156,7 @@ const styles = StyleSheet.create({
   },
 });
 
-/*<DatePicker 
-        selected={cuenta.cutoff_date} 
-        onChange={(text) => changeCuenta(text, "cutoff_date")} 
-      />*/
-  
-  /*<DatePicker 
-        date = {cuenta.cutoff_date}
-        mode="date"
-        onDateChange={(text) => changeCuenta(text, "cutoff_date")}
-      />*/
 
-
-  /*
-  (
-    <View style={styles.container}>
-      
-      <Text style={styles.welcome}>Welcome {userInfo.tokens.access}</Text>
-      
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  welcome: {
-    fontSize: 18,
-    marginBottom: 8,
-  },
-});
-*/
 
 export default HomeScreen;
 

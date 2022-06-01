@@ -76,9 +76,9 @@ export const AuthProvider = ({children}) => {
 
       };
 
-      /*useEffect(() => {
+      useEffect(() => {
         isLoggedIn();
-      }, []);*/
+      }, []);
 
 
     return (<AuthContext.Provider value={{register, userInfo, login, splashLoading, isLoading}}>{children}</AuthContext.Provider>);

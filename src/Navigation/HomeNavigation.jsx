@@ -16,6 +16,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-fontawesome';
 import AccountsNavigator from './accounts/AccountsNavigation';
 import TagsNavigator from './tags/TagsNavigator';
+import ExpensesNavigator from "./expenses/ExpensesNavigation";
 
 const ImgLogo = require("../../assets/MLogo.jpg");
 
@@ -36,6 +37,8 @@ const HomeNavigation = ({navigation}) => {
             {/*<Home.Screen name="Cuentas" component={HomeScreen}/>*/}
             <Home.Screen name="Cuentas" component={AccountsNavigator}/>
             <Home.Screen name="Etiquetas" component={TagsNavigator}/>
+            <Home.Screen name="Gastos" component={ExpensesNavigator}/>
+            <Home.Screen name="Ingresos" component={TagsNavigator}/>
             {/*<Home.Screen name="Cuentas" component={HomeScreen}/>*/}
             
         </Home.Navigator>

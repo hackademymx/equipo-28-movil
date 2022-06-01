@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa almacenamiento asincrono de la aplicacion
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -15,9 +15,22 @@ import AuthNavigation from './AuthNavigation';
 const Navigation = () => {
   const {userInfo, splashLoading} = useContext(AuthContext);
 
+ const[userLogged, setUserLogged] =useState(false);
+  // useEffect(()=>{
+  //   const isLogged = async () => {
+  //     let userInfo = await AsyncStorage.getItem('userInfo');
+  //     userInfo = JSON.parse(userInfo);
+  //     if (userInfo) {
+  //       setUserLogged(true)
+  //     } 
+  //   }
+  // isLogged() 
+  // }, [userInfo])
+
+
   return (
     <NavigationContainer>
-        {userInfo.tokens ? (<HomeNavigation/>) : (<AuthNavigation/>)}
+        {userInfo.tokens? (<HomeNavigation/>) : (<AuthNavigation/>)}
     </NavigationContainer>
   );
 };
