@@ -1,13 +1,14 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, StyleSheet, Text, View, Image} from 'react-native';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../../context/AuthContext';
 import axios from 'axios';
 import { Picker } from "@react-native-picker/picker";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+//import DatePicker from "react-datepicker";
+//import "react-datepicker/dist/react-datepicker.css";
 //import DatePicker from 'react-native-date-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { MyTextInput, MyBoton } from "../../components/";
 
 import {BASE_URL} from '../../config';
@@ -32,6 +33,9 @@ const HomeScreen = ({navigation}) => {
   const [PickerItems, SetPickerItems] = React.useState();
   const [startDate, setStartDate] = React.useState(new Date());
   const [Loading, setLoading] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const [mode, setMode] = useState('date');
+  const [date, setDate] = useState(new Date())
 
   const {userInfo} = useContext(AuthContext);
 
@@ -67,6 +71,19 @@ const HomeScreen = ({navigation}) => {
       ...cuenta,
       [name]: text,
     });
+  };
+
+  const showMode = (currentMode) => {
+     setShow(true);
+     setMode(currentMode);
+  }
+
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    let tempDate = new Date(currentDate);
+    //let fDate = tempDate.getFullYear() + '-' (tempDate.getMonth()+1) + '-' tempDate.getDate();
+    console.log(tempDate);
+    //setShow(false);
   };
 
   return (
@@ -134,6 +151,18 @@ const HomeScreen = ({navigation}) => {
         setValue={(text) => changeCuenta(text, "cutoff_date")}
       />
 
+      <View>
+        <Button title='DatePicker' onPress={()=>showMode('date')}/>
+      </View>
+
+    {show && (
+      <DateTimePicker
+        testID='datepicker'
+        value={date}
+        mode={mode}
+        display= 'default'
+        onChange={onChangeDate}
+      />)}
 {/*}
       <DatePicker 
         selected={cuenta.cutoff_date} 
