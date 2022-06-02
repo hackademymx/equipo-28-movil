@@ -66,7 +66,7 @@ export default function TagsScreen({ navigation }) {
       return (
       <TouchableOpacity
         key={color}
-        style={[styles.selectColor, {backgroundColor: color}]}
+        style={[color===etiqueta.tag_color ? styles.selectedTag : styles.selectColor, {backgroundColor: color}]}
         onPress={() => changeEtiqueta(color, "tag_color")}
       />
     )}
@@ -160,6 +160,13 @@ const styles = StyleSheet.create({
   selectColor: {
     width: 20,
     height: 20,
+    borderRadius: 4,
+    borderColor: '#000000',
+    borderWidth: 1,
+  },
+  selectedTag: {
+    width: 25,
+    height: 25,
     borderRadius: 4,
     borderColor: '#000000',
     borderWidth: 1,
