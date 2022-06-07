@@ -26,7 +26,7 @@ const HomeScreen = ({navigation}) => {
     image: null,
     });
   
-  const [accounts, setAccounts] = useState({});
+  const [accounts, setAccounts] = useState([]);
   const [Error, setError] = React.useState("");
   const [PickerItems, SetPickerItems] = React.useState();
   const [startDate, setStartDate] = React.useState(new Date());
@@ -53,7 +53,6 @@ const HomeScreen = ({navigation}) => {
       console.error(error);
       alert(error);
     }
-    const response = await request({method: 'get', url: '/accounts/'})
   }
 
   const enviarGasto = async () => {
@@ -134,6 +133,23 @@ const HomeScreen = ({navigation}) => {
         value={gasto.flow_type}
         setValue={(text) => changeGasto(text, "flow_type")}
       /> */}
+
+      <Picker
+        selectedValue={gasto.account_fkey}
+        onValueChange={(text) => changeCuenta(text, "account_fkey")}
+        placeholder="Tipo de cuenta"
+        mode = "dropdown"
+      >
+        <Picker.Item label="Selecciona una cuenta" />
+        {accounts!== [] ? 
+          
+          (accounts.map(acc=>{
+            return <Picker.Item label={acc.account_name} value={acc.id}/>
+          }))
+          :
+          <Picker.Item label="Loading..." />
+        }
+      </Picker>
 
 
       <MyBoton text="GUARDAR" onPress={enviarGasto} />
