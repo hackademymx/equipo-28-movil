@@ -12,6 +12,8 @@ import {
 import { MyTextInput, MyBoton } from "../../components/";
 import { Picker } from "@react-native-picker/picker";
 import request from "../../api";
+//import colors from "../../../utils/colors";
+import { TouchableOpacity } from "react-native-web";
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
@@ -26,6 +28,8 @@ export default function TagsScreen({ navigation }) {
   const [Loading, setLoading] = useState(false);
   const [Error, setError] = useState("");
   const [PickerItems, SetPickerItems] = useState();
+
+  const backgroundColors = ['#655d8a', '#d885a3', '#9fcbda', '#ffbcbc', '#faf5d6', '#fdceb9', '#abe1df', '#f8f4a3', '#bff2be', '#7c99ac']
 
   const ChangeUserInputs = (propiedad, value) => {
     setUser({
@@ -56,6 +60,19 @@ export default function TagsScreen({ navigation }) {
       [name]: text,
     });
   };
+
+  const renderColors = () => {
+    return backgroundColors.map(color => {
+      return (
+      <TouchableOpacity
+        key={color}
+        style={[color===etiqueta.tag_color ? styles.selectedTag : styles.selectColor, {backgroundColor: color}]}
+        onPress={() => changeEtiqueta(color, "tag_color")}
+      />
+    )}
+
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -89,6 +106,9 @@ export default function TagsScreen({ navigation }) {
       </Picker>
 
       <Text>Color:</Text>
+      <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+        {renderColors()}
+      </View>
       {/*<Picker
         selectedValue={PickerItems}
         onValueChange={(itemValue, itemIndex) => SetPickerItems(itemValue)}
@@ -97,12 +117,23 @@ export default function TagsScreen({ navigation }) {
         <Picker.Item label=" " value=" " />
 
   </Picker>*/}
+
+    {/*
+    <View>
+    <Text>
+      {etiqueta.tag_color}
+    </Text>
+    </View>
+  
+      
+    
     <MyTextInput
         label="Color:"
         place=" "
         value={etiqueta.tag_color}
         setValue={(text) => changeEtiqueta(text, "tag_color")}
       />
+*/}
     
       
       
@@ -125,5 +156,19 @@ const styles = StyleSheet.create({
     width: 90,
     alignSelf: "flex-end",
     margin: 0,
+  },
+  selectColor: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderColor: '#000000',
+    borderWidth: 1,
+  },
+  selectedTag: {
+    width: 25,
+    height: 25,
+    borderRadius: 4,
+    borderColor: '#000000',
+    borderWidth: 1,
   },
 });
