@@ -8,7 +8,7 @@ import { Picker } from "@react-native-picker/picker";
 //import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 //import DatePicker from 'react-native-date-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+//import DateTimePicker from '@react-native-community/datetimepicker';
 import { MyTextInput, MyBoton } from "../../components/";
 
 import {BASE_URL} from '../../config';
@@ -151,18 +151,18 @@ const HomeScreen = ({navigation}) => {
         setValue={(text) => changeCuenta(text, "cutoff_date")}
       />
 
-      <View>
+      {/*<View>
         <Button title='DatePicker' onPress={()=>showMode('date')}/>
-      </View>
+</View>*/}
 
-    {show && (
+    {/*show && (
       <DateTimePicker
         testID='datepicker'
         value={date}
         mode={mode}
         display= 'default'
         onChange={onChangeDate}
-      />)}
+    />)*/}
 {/*}
       <DatePicker 
         selected={cuenta.cutoff_date} 
