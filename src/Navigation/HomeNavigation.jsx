@@ -1,15 +1,12 @@
 import React, {useContext} from 'react';
 import {Button, StyleSheet, Text, View, Image} from 'react-native';
-
 import Spinner from 'react-native-loading-spinner-overlay';
-
 import axios from 'axios';
-import { createDrawerNavigator, useDrawerStatus, DrawerContentScrollView  } from "@react-navigation/drawer";
+import { createDrawerNavigator, useDrawerStatus, DrawerContentScrollView, DrawerItem  } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MyTextInput, MyBoton } from "../components/";
 import HomeScreen from '../screens/HomeScreen';
 import Gu from '../screens/GuScreen';
-
 import {AuthContext} from '../context/AuthContext';
 import {BASE_URL} from '../config';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -17,6 +14,8 @@ import Icon from 'react-native-fontawesome';
 import AccountsNavigator from './accounts/AccountsNavigation';
 import TagsNavigator from './tags/TagsNavigator';
 import ExpensesNavigator from "./expenses/ExpensesNavigation";
+import IncomesNavigator from "./incomes/IncomesNavigation";
+
 
 const ImgLogo = require("../../assets/MLogo.jpg");
 
@@ -38,7 +37,9 @@ const HomeNavigation = ({navigation}) => {
             <Home.Screen name="Cuentas" component={AccountsNavigator}/>
             <Home.Screen name="Etiquetas" component={TagsNavigator}/>
             <Home.Screen name="Gastos" component={ExpensesNavigator}/>
-            <Home.Screen name="Ingresos" component={TagsNavigator}/>
+            <Home.Screen name="Ingresos" component={IncomesNavigator}/>
+
+            {/* <Home.Screen name = "Cerrar Sesion" onPress={() => navigation.navigate('Login')}/> */}
             {/*<Home.Screen name="Cuentas" component={HomeScreen}/>*/}
             
         </Home.Navigator>

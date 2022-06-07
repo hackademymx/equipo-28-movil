@@ -80,26 +80,40 @@ const HomeScreen = ({navigation}) => {
         setValue={(text) => changeGasto(text, "description")}
       />
 
-       <MyTextInput
-        label="ID cuenta:"
-        place=" "
-        value={gasto.account_fkey}
-        setValue={(text) => changeGasto(text, "account_fkey")}
+      <MyTextInput
+        label="INGRESOS O EGRESOS:"
+        place="e.g. INGRESOS O EGRESOS"
+        value={gasto.flow_type}
+        setValue={(text) => changeGasto(text, "flow_type")}
       />
 
-<MyTextInput
-        label="Importe de Gasto:"
+      <MyTextInput
+        label="Importe:"
         place=" "
         value={gasto.amount}
         setValue={(text) => changeGasto(text, "amount")}
       />
 
+      {/* <MyTextInput
+        label="Concepto:"
+        place=" "
+        value={gasto.tag}
+        setValue={(text) => changeGasto(text, "tag")}
+      /> */}
+
+       <MyTextInput
+        label="ID Cuenta Asociada:"
+        place=" "
+        value={gasto.account_fkey}
+        setValue={(text) => changeGasto(text, "account_fkey")}
+      />
+{/* 
       <MyTextInput
         label="Egreso o Ingreso:"
         place=" "
         value={gasto.flow_type}
         setValue={(text) => changeGasto(text, "flow_type")}
-      />
+      /> */}
 
 
       <MyBoton text="GUARDAR" onPress={enviarGasto} />

@@ -29,7 +29,7 @@ const ExpensesList = ({navigation}) => {
     
     try {
       setLoading(true);
-      const response = await request({method: 'get', url: '/expense/'})
+      const response = await request({method: 'get', url: '/movements/'})
       console.log(response.data)
       setLoading(false);
       setExpenses(response.data)
@@ -44,7 +44,7 @@ const ExpensesList = ({navigation}) => {
   };
 
   const eliminarElemento= async (idx) => {
-    const response = await axios.delete(`${BASE_URL}/expenses/${idx}`) 
+    const response = await axios.delete(`${BASE_URL}/movements/${idx}`) 
     deleteData(idx);
   }
 
@@ -61,7 +61,7 @@ const ExpensesList = ({navigation}) => {
             return (
             <TouchableOpacity key={`expenses-${idx}`} onPressIn={()=>navigation.navigate('ExpensesDetail', exp)}>
               <View style={styles.expItem}> 
-                <Text >{exp.expenses_name}-{exp.date_expenses}-{exp.expenses_amount}</Text> 
+                <Text >{exp.description}-{exp.flow_type}-{exp.id}</Text> 
               </View>
             </TouchableOpacity>
             )

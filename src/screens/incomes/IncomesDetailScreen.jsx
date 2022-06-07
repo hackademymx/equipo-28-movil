@@ -64,50 +64,43 @@ const IncomesDetailScreen = ({navigation}) => {
       
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
-        label="Nombre:"
-        place={route.params.incomes_name}
-        value={incomes.incomes_name}
-        setValue={(text) => updateIncomes(text, "Incomes_name")}
+        label="Concepto del Ingreso:"
+        place={route.params.incomes_concept}
+        value={incomes.incomes_concept}
+        setValue={(text) => updateIncomes(text, "incomes_concept")}
       />
 
       <MyTextInput
-        label="Tipo de cuenta:"
-        place={incomes.type_incomes}
-        value={incomes.type_incomes}
-        setValue={(text) => updateIncomes(text, "type_incomes")}
+        label="Fecha:"
+        place={incomes.incomes_date}
+        value={incomes.incomes_date}
+        setValue={(text) => updateIncomes(text, "incomes_date")}
       />
 
       <MyTextInput
-        label="Número de cuenta:"
-        place={incomes.incomes_num}
-        value={incomes.incomes_num}
-        setValue={(text) => updateIncomes(text, "incomes_num")}
+        label="Monto:"
+        place={incomes.incomes_amount}
+        value={incomes.incomes_amount}
+        setValue={(text) => updateIncomes(text, "incomes_amount")}
       />
 
       <MyTextInput
-        label="Saldo actual:"
-        place={incomes.current_balance}
-        value={incomes.current_balance}
-        setValue={(text) => updateIncomes(text, "current_balance")}
+        label="Descripcion:"
+        place={incomes.incomes_description}
+        value={incomes.incomes_description}
+        setValue={(text) => updateIncomes(text, "incomes_description")}
       />
 
       <MyTextInput
-        label="Clabe interbancaria:"
-        place={incomes.incomes_cbe}
-        value={incomes.incomes_cbe}
-        setValue={(text) => updateIncomes(text, "incomes_cbe")}
+        label="Cuenta:"
+        place={incomes.income_account}
+        value={incomes.income_account}
+        setValue={(text) => updateIncomes(text, "income_account")}
       />
 
-      <MyTextInput
-        label="Fecha de corte:"
-        place={incomes.cutoff_date}
-        value={incomes.cutoff_date}
-        setValue={(text) => updateIncomes(text, "cutoff_date")}
-      />
     </View>
   );
 }
-//navigation.getParam('id')
 
 const styles = StyleSheet.create({
   container: {

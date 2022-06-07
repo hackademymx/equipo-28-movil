@@ -45,7 +45,7 @@ const ExpensesDetailScreen = ({navigation}) => {
       let expId = route.params.id;
       console.log('Id de cuenta'+expId);
       setLoading(true);
-      const response = await request({method: 'get', url: `/expenses/${expId}`}) //sin el último slash
+      const response = await request({method: 'get', url: `/movements/detail/${expId}`}) //sin el último slash
       
       setLoading(false);
       setExpenses(response.data);
@@ -67,38 +67,45 @@ const ExpensesDetailScreen = ({navigation}) => {
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
         label="Descripcion del Gasto:"
-        place={route.params.expenses_name}
-        value={expenses.expenses_name}
-        setValue={(text) => updateExpenses(text, "expenses_name")}
+        place={route.params.description}
+        value={expenses.description}
+        setValue={(text) => updateExpenses(text, "description")}
       />
 
       <MyTextInput
-        label="Fecha del Gasto:"
-        place={expenses.date_expenses}
-        value={expenses.date_expenses}
-        setValue={(text) => updateExpenses(text, "date_expenses")}
+        label="INGRESOS O EGRESOS:"
+        place={expenses.flow_type}
+        value={expenses.flow_type}
+        setValue={(text) => updateExpenses(text, "flow_type")}
       />
 
       <MyTextInput
         label="Importe de Gasto:"
-        place={expenses.expenses_amount}
-        value={expenses.expenses_amount}
-        setValue={(text) => updateExpenses(text, "expenses_amount")}
+        place={expenses.amount}
+        value={expenses.amount}
+        setValue={(text) => updateExpenses(text, "amount")}
       />
 
-      <MyTextInput
+      {/* <MyTextInput
         label="Concepto de Gasto:"
-        place={expenses.expenses_concept}
-        value={expenses.expenses_concept}
-        setValue={(text) => updateExpenses(text, "expenses_concept")}
-      />
+        place={expenses.tag}
+        value={expenses.tag}
+        setValue={(text) => updateExpenses(text, "tag")}
+      /> */}
 
       <MyTextInput
         label="Cuenta Asociada al Gasto:"
-        place={expenses.expenses_account}
-        value={expenses.expenses_acount}
-        setValue={(text) => updateExpenses(text, "expenses_account")}
+        place={expenses.account_fkey.account_name}
+        value={expenses.account_fkey}
+        setValue={(text) => updateExpenses(text, "account_fkey")}
       />
+{/* 
+      <MyTextInput
+        label="Ingreso o Egreso:"
+        place={expenses.flow_type}
+        value={expenses.flow_type}
+        setValue={(text) => updateExpenses(text, "flow_type")}
+      /> */}
 
     </View>
   );
