@@ -120,12 +120,12 @@ const HomeScreen = ({navigation}) => {
         setValue={(text) => changeGasto(text, "tag")}
       /> */}
 
-       <MyTextInput
+       {/* <MyTextInput
         label="ID Cuenta Asociada:"
         place=" "
         value={gasto.account_fkey}
         setValue={(text) => changeGasto(text, "account_fkey")}
-      />
+      /> */}
 {/* 
       <MyTextInput
         label="Egreso o Ingreso:"
@@ -133,18 +133,18 @@ const HomeScreen = ({navigation}) => {
         value={gasto.flow_type}
         setValue={(text) => changeGasto(text, "flow_type")}
       /> */}
-
+  <Text>Cuanta asociada:</Text>
       <Picker
         selectedValue={gasto.account_fkey}
-        onValueChange={(text) => changeCuenta(text, "account_fkey")}
+        onValueChange={(text) => changeGasto(text, "account_fkey")}
         placeholder="Tipo de cuenta"
         mode = "dropdown"
       >
         <Picker.Item label="Selecciona una cuenta" />
         {accounts!== [] ? 
           
-          (accounts.map(acc=>{
-            return <Picker.Item label={acc.account_name} value={acc.id}/>
+          (accounts.map((acc,idx)=>{
+            return <Picker.Item label={acc.account_name} value={acc.id} key={`account-${idx}`}/>
           }))
           :
           <Picker.Item label="Loading..." />
