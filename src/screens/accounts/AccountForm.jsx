@@ -19,15 +19,15 @@ const ImgLogo = require("../../../assets/MLogo.jpg");
 //<Button title="Logout" color="red" onPress={logout} />
 const HomeScreen = ({navigation}) => {
  
-
-  const [cuenta, setCuenta] = React.useState({
+  const cuentaDefault = {
     account_name: "",
     type_account: "",
     account_num: "",
     current_balance: "",
     account_cbe: "",
     cutoff_date: "",
-  });
+  };
+  const [cuenta, setCuenta] = React.useState(cuentaDefault);
   //const [isLoading, setLoading] = React.useState(false);
   const [Error, setError] = React.useState("");
   const [PickerItems, SetPickerItems] = React.useState();
@@ -56,6 +56,7 @@ const HomeScreen = ({navigation}) => {
 
       setLoading(false);
       alert('Cuenta registrada');
+      setCuenta(cuentaDefault);
     } catch (error) {
       
       const data = error.response.data;
