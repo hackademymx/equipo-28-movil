@@ -80,13 +80,13 @@ export const AuthProvider = ({children}) => {
       //   isLoggedIn();
       // }, []);
 
-      // const logout = () => {
-      //   setUserInfo(null)
-      //   setIsLoading(false)
-      // };
+      const logout = () => {
+        setUserInfo({})
+        setIsLoading(false)
+      };
       
 
-    return (<AuthContext.Provider value={{register, userInfo, login, splashLoading, isLoading}}>{children}</AuthContext.Provider>);
+    return (<AuthContext.Provider value={{register, userInfo, login, splashLoading, isLoading, logout }}>{children}</AuthContext.Provider>);
 };
 
 /*

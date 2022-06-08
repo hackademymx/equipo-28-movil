@@ -95,7 +95,7 @@ const ExpensesDetailScreen = ({navigation}) => {
 
       <MyTextInput
         label="Cuenta Asociada al Gasto:"
-        place={expenses.account_fkey.account_name}
+        place={expenses.account_fkey.account_fkey}
         value={expenses.account_fkey}
         setValue={(text) => updateExpenses(text, "account_fkey")}
       />
