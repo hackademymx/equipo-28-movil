@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "crud",
-    "slug": "crud",
+    "name": "authprueba",
+    "slug": "authprueba",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -23,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.peckie17.authprueba"
     },
     "web": {
       "favicon": "./assets/favicon.png"
