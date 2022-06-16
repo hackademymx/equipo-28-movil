@@ -1,17 +1,18 @@
-import React, {useContext, useEffect, useState, useLayoutEffect} from 'react';
-import {Button, StyleSheet, Text, View, Image} from 'react-native';
-import { useRoute, useIsFocused } from '@react-navigation/native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import {AuthContext} from '../../context/AuthContext';
-import axios from 'axios';
+import React, { useContext, useEffect, useState, useLayoutEffect } from "react";
+import { Button, StyleSheet, Text, View, Image } from "react-native";
+import { useRoute, useIsFocused } from "@react-navigation/native";
+import Spinner from "react-native-loading-spinner-overlay";
+import { AuthContext } from "../../context/AuthContext";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+//import DatePicker from "react-datepicker";
+//import "react-datepicker/dist/react-datepicker.css";
 //import DatePicker from 'react-native-date-picker';
 import { MyTextInput, MyBoton } from "../../components";
 import request from "../../api";
 //import { MyTextInput, MyBoton } from "../components/";
-import {BASE_URL} from '../../config';
+import { BASE_URL } from "../../config";
 
 //import { useState } from 'react/cjs/react.production.min';
 
@@ -19,8 +20,8 @@ const ImgLogo = require("../../../assets/MLogo.jpg");
 
 //<Spinner visible={isLoading} />
 //<Button title="Logout" color="red" onPress={logout} />
-const AccountDetailScreen = ({navigation}) => {
-  const route = useRoute();//en vez de navigation.getParams
+const AccountDetailScreen = ({ navigation }) => {
+  const route = useRoute(); //en vez de navigation.getParams
   const [account, setAccount] = useState({});
   //const [account, setAccount] = useState([]);
   const isFocused = useIsFocused();
@@ -36,7 +37,8 @@ const AccountDetailScreen = ({navigation}) => {
 
   //const [isLoading, setLoading] = React.useState(false);
 
-  const {userInfo} = useContext(AuthContext);
+  const { userInfo } = useContext(AuthContext);
+  
 
   const updateAccount = (text, name) => {
     setAccount({
@@ -48,41 +50,63 @@ const AccountDetailScreen = ({navigation}) => {
   useEffect(() => {
     if (isFocused) {
       getAccountDetail();
-
     }
   }, [isFocused]);
 
-/*useLayoutEffect(()=>{
+  /*useLayoutEffect(()=>{
   console.log('ya está la cuenta');
   console.log(account);
   console.log(account.account_name);
 }, [account]);*/
 
-
   const getAccountDetail = async () => {
     try {
       let accId = route.params.id;
-      console.log('Id de cuenta'+accId);
+      console.log("Id de cuenta" + accId);
       setLoading(true);
-      const response = await request({method: 'get', url: `/accounts/${accId}`}) //sin el último slash
-      
+      const response = await request({
+        method: "get",
+        url: `/accounts/${accId}`,
+      }); //sin el último slash
+
       setLoading(false);
       setAccount(response.data);
       //console.log(account);
     } catch (error) {
-      
       //const data = error.response.data;
       setLoading(false);
-     // setError(data.msg ? data.msg : data.error);
+      // setError(data.msg ? data.msg : data.error);
       console.error(error);
       alert(error);
-
     }
   };
-  
+
+  const deleteAccount = async () => {
+    try{
+      let accId = route.params.id;
+      console.log("Intento eliminar Id de cuenta " + accId);
+      setLoading(true);
+      const response = await request({
+        method: "delete",
+        url: `/accounts/${accId}`,
+      }); //sin el último slash
+      setLoading(false);
+      navigation.navigate('AccountList');
+      alert("Se eliminó :3");
+      
+      
+      //estari cool que navegara al stacks
+    }catch(error){
+      setLoading(false);
+      // setError(data.msg ? data.msg : data.error);
+      console.error(error);
+      alert(error);
+      
+    }
+  }
+
   return (
     <View style={styles.container}>
-      
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
         label="Nombre:"
@@ -125,9 +149,20 @@ const AccountDetailScreen = ({navigation}) => {
         value={account.cutoff_date}
         setValue={(text) => updateAccount(text, "cutoff_date")}
       />
+
+      
+
+      <TouchableOpacity style={styles.boton1} onPress={() => console.log("Intento actualizar" + route.params.id)}>
+        <Text style={styles.texto1}>Actualizar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.boton2} onPress={deleteAccount}>
+        <Text style={styles.texto1}>Eliminar</Text>
+      </TouchableOpacity>
+
+
     </View>
   );
-}
+};
 //navigation.getParam('id')
 
 const styles = StyleSheet.create({
@@ -145,21 +180,56 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     margin: 0,
   },
+  boton1: {
+    backgroundColor: "#000",
+    height: 30,
+    width: 162,
+    borderWidth: 2,
+    padding: 10,
+    margin: 0,
+    marginVertical: -0,
+    borderColor: "#000",
+    borderRadius: 10,
+    alignSelf: "flex-start",
+    position: "fixed",
+    bottom: 50,
+    right: "5%",
+  },
+  boton2: {
+    backgroundColor: "#000",
+    height: 30,
+    width: 162,
+    borderWidth: 2,
+    padding: 10,
+    marginVertical: -20,
+    borderColor: "#000",
+    borderRadius: 10,
+    alignSelf: "flex-end",
+    position: "fixed",
+    bottom: 70,
+    right: "52%",
+  },
+  texto1: {
+    fontFamily: "Calibri",
+    fontSize: 13,
+    color: "#fff",
+    alignSelf: "center",
+    padding: 0,
+  },
 });
 
 /*<DatePicker 
         selected={cuenta.cutoff_date} 
         onChange={(text) => changeCuenta(text, "cutoff_date")} 
       />*/
-  
-  /*<DatePicker 
+
+/*<DatePicker 
         date = {cuenta.cutoff_date}
         mode="date"
         onDateChange={(text) => changeCuenta(text, "cutoff_date")}
       />*/
 
-
-  /*
+/*
   (
     <View style={styles.container}>
       
@@ -183,4 +253,3 @@ const styles = StyleSheet.create({
 */
 
 export default AccountDetailScreen;
-

@@ -5,8 +5,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../../context/AuthContext';
 import axios from 'axios';
 import { Picker } from "@react-native-picker/picker";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+//import DatePicker from "react-datepicker";
+//import "react-datepicker/dist/react-datepicker.css";
 //import DatePicker from 'react-native-date-picker';
 import { MyTextInput, MyBoton } from "../../components/";
 

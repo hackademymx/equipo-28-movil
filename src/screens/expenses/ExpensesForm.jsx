@@ -1,11 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
+import { useIsFocused } from "@react-navigation/native";
 import {Button, StyleSheet, Text, View, Image} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../../context/AuthContext';
 import axios from 'axios';
 import { Picker } from "@react-native-picker/picker";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+//import DatePicker from "react-datepicker";
+//import "react-datepicker/dist/react-datepicker.css";
 //import DatePicker from 'react-native-date-picker';
 import { MyTextInput, MyBoton } from "../../components/";
 import request from "../../api";
@@ -21,31 +22,49 @@ const HomeScreen = ({navigation}) => {
     description: "",
     account_fkey: "",
     amount: "",
-    flow_type: "",
+    flow_type: "EGRESOS",
     image: null,
     });
-
+  
+  const [accounts, setAccounts] = useState([]);
   const [Error, setError] = React.useState("");
   const [PickerItems, SetPickerItems] = React.useState();
   const [startDate, setStartDate] = React.useState(new Date());
   const [Loading, setLoading] = React.useState(false);
 
-  const {userInfo} = useContext(AuthContext);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isFocused) {
+      getUserAccounts();
+      console.log(accounts)
+    };
+  }, [isFocused]);
+
+  const getUserAccounts = async () => {
+    try {
+      setLoading(true)
+      const response = await request({method: 'get', url: '/accounts/'}); //aqui tengo todas las cuentas y su info, pero yo solo quiero un array con su id y nombre?
+      setAccounts(response.data)
+      setLoading(false)
+    }
+    catch (error){
+      setLoading(false);
+     // setError(data.msg ? data.msg : data.error);
+      console.error(error);
+      alert(error);
+    }
+  }
 
   const enviarGasto = async () => {
 
-    const access_token = userInfo.tokens.access;
-    const headers = {
-      Authorization: `Bearer ${access_token}`,
-    };
 
     try { 
       
       setLoading(true);
-      const response = await axios.post(`${BASE_URL}/movements/`,
-        gasto,
+      const response = await request({method: 'post', url: '/movements/', data: gasto});//await axios.post(`${BASE_URL}/movements/`,
+      /*  gasto,
         { headers: headers }
-      );
+      );*/
       //const response = await request({method: 'post', data:gasto, url: '/movements/'})
       
       setLoading(false);
@@ -80,12 +99,12 @@ const HomeScreen = ({navigation}) => {
         setValue={(text) => changeGasto(text, "description")}
       />
 
-      <MyTextInput
+      {/*<MyTextInput
         label="INGRESOS O EGRESOS:"
         place="e.g. INGRESOS O EGRESOS"
         value={gasto.flow_type}
         setValue={(text) => changeGasto(text, "flow_type")}
-      />
+  />*/}
 
       <MyTextInput
         label="Importe:"
@@ -101,12 +120,12 @@ const HomeScreen = ({navigation}) => {
         setValue={(text) => changeGasto(text, "tag")}
       /> */}
 
-       <MyTextInput
+       {/* <MyTextInput
         label="ID Cuenta Asociada:"
         place=" "
         value={gasto.account_fkey}
         setValue={(text) => changeGasto(text, "account_fkey")}
-      />
+      /> */}
 {/* 
       <MyTextInput
         label="Egreso o Ingreso:"
@@ -114,6 +133,23 @@ const HomeScreen = ({navigation}) => {
         value={gasto.flow_type}
         setValue={(text) => changeGasto(text, "flow_type")}
       /> */}
+  <Text>Cuanta asociada:</Text>
+      <Picker
+        selectedValue={gasto.account_fkey}
+        onValueChange={(text) => changeGasto(text, "account_fkey")}
+        placeholder="Tipo de cuenta"
+        mode = "dropdown"
+      >
+        <Picker.Item label="Selecciona una cuenta" />
+        {accounts!== [] ? 
+          
+          (accounts.map((acc,idx)=>{
+            return <Picker.Item label={acc.account_name} value={acc.id} key={`account-${idx}`}/>
+          }))
+          :
+          <Picker.Item label="Loading..." />
+        }
+      </Picker>
 
 
       <MyBoton text="GUARDAR" onPress={enviarGasto} />
