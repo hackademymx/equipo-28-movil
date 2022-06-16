@@ -10,6 +10,7 @@ import { Picker } from "@react-native-picker/picker";
 import { MyTextInput, MyBoton } from "../../components";
 import request from "../../api";
 import {BASE_URL} from '../../config';
+import { ActivityIndicator } from 'react-native';
 
 
 
@@ -46,7 +47,7 @@ const ExpensesDetailScreen = ({navigation}) => {
       console.log('Id de cuenta'+expId);
       setLoading(true);
       const response = await request({method: 'get', url: `/movements/detail/${expId}`}) //sin el último slash
-      
+      console.log("RESPONSE =>",response.data)
       setLoading(false);
       setExpenses(response.data);
   
@@ -60,7 +61,11 @@ const ExpensesDetailScreen = ({navigation}) => {
 
     }
   };
-  
+  // if (Loading){
+  //   return(
+  //     <ActivityIndicator></ActivityIndicator> 
+  //   )
+  // }
   return (
     <View style={styles.container}>
       
@@ -95,9 +100,10 @@ const ExpensesDetailScreen = ({navigation}) => {
 
       <MyTextInput
         label="Cuenta Asociada al Gasto:"
-        place={expenses.account_fkey.account_fkey}
-        value={expenses.account_fkey}
+        place={expenses.account_fkey?.account_name}
+        value={expenses.account_fkey?.account_name}
         setValue={(text) => updateExpenses(text, "account_fkey")}
+        
       />
 {/* 
       <MyTextInput
@@ -106,7 +112,7 @@ const ExpensesDetailScreen = ({navigation}) => {
         value={expenses.flow_type}
         setValue={(text) => updateExpenses(text, "flow_type")}
       /> */}
-
+    
     </View>
   );
 }
