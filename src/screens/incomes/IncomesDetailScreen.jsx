@@ -3,6 +3,7 @@ import {Button, StyleSheet, Text, View, Image} from 'react-native';
 import { useRoute, useIsFocused } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../../context/AuthContext';
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import axios from 'axios';
 import { Picker } from "@react-native-picker/picker";
 //import DatePicker from "react-datepicker";
@@ -43,7 +44,7 @@ const IncomesDetailScreen = ({navigation}) => {
       let incId = route.params.id;
       console.log('Id de cuenta'+incId);
       setLoading(true);
-      const response = await request({method: 'get', url: `/incomes/${incId}`}) //sin el último slash
+      const response = await request({method: 'get', url: `/movements/detail/${incId}`}) //sin el último slash
       
       setLoading(false);
       setIncomes(response.data);
@@ -58,6 +59,50 @@ const IncomesDetailScreen = ({navigation}) => {
 
     }
   };
+
+  const modifyIncome = async () => {
+    try {
+      let incId = route.params.id;
+      
+      setLoading(true);
+      const response = await request({data:ingreso,
+        method: "put",
+        url: `/movements/detail/${incId}`,
+      }); //sin el último slash
+      setLoading(false);
+      navigation.navigate("IncomesList");
+      alert("Se actualizó Ingreso");
+
+      //estari cool que navegara al stacks
+    } catch (error) {
+      setLoading(false);
+      // setError(data.msg ? data.msg : data.error);
+      console.error(error);
+      alert(error);
+    }
+    };
+
+    const deleteAccount = async () => {
+      try {
+        let incId = route.params.id;
+        console.log("Intento eliminar Id de cuenta " + accId);
+        setLoading(true);
+        const response = await request({
+          method: "delete",
+          url: `/movements/detail/${incId}`,
+        }); //sin el último slash
+        setLoading(false);
+        navigation.navigate("IncomesList");
+        alert("Se eliminó Ingreso");
+  
+        //estari cool que navegara al stacks
+      } catch (error) {
+        setLoading(false);
+        // setError(data.msg ? data.msg : data.error);
+        console.error(error);
+        alert(error);
+      }
+    };
   
   return (
     <View style={styles.container}>
@@ -65,39 +110,44 @@ const IncomesDetailScreen = ({navigation}) => {
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
         label="Concepto del Ingreso:"
-        place={route.params.incomes_concept}
-        value={incomes.incomes_concept}
-        setValue={(text) => updateIncomes(text, "incomes_concept")}
+        place={route.params.incomes_flow_type}
+        value={incomes.flow_type}
+        setValue={(text) => updateIncomes(text, "flow_type")}
       />
 
-      <MyTextInput
+      {/* <MyTextInput
         label="Fecha:"
         place={incomes.incomes_date}
         value={incomes.incomes_date}
         setValue={(text) => updateIncomes(text, "incomes_date")}
-      />
+      /> */}
 
       <MyTextInput
         label="Monto:"
-        place={incomes.incomes_amount}
-        value={incomes.incomes_amount}
-        setValue={(text) => updateIncomes(text, "incomes_amount")}
+        place={incomes.amount}
+        value={incomes.amount}
+        setValue={(text) => updateIncomes(text, "amount")}
       />
 
       <MyTextInput
         label="Descripcion:"
-        place={incomes.incomes_description}
-        value={incomes.incomes_description}
-        setValue={(text) => updateIncomes(text, "incomes_description")}
+        place={incomes.description}
+        value={incomes.description}
+        setValue={(text) => updateIncomes(text, "description")}
       />
 
       <MyTextInput
         label="Cuenta:"
-        place={incomes.income_account}
-        value={incomes.income_account}
-        setValue={(text) => updateIncomes(text, "income_account")}
+        place={incomes.account_fkey?.account_name}
+        value={incomes.account_fkey?.account_name}
+        setValue={(text) => updateIncomes(text, "account_fkey?.account_name")}
       />
-
+      <TouchableOpacity style={styles.boton1} onPress={modifyAccount}>
+        <Text style={styles.texto1}>Actualizar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.boton2} onPress={deleteAccount}>
+        <Text style={styles.texto1}>Eliminar</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -116,6 +166,42 @@ const styles = StyleSheet.create({
     width: 90,
     alignSelf: "flex-end",
     margin: 0,
+  },
+  boton1: {
+    backgroundColor: "#000",
+    height: 30,
+    width: 162,
+    borderWidth: 2,
+    padding: 10,
+    margin: 0,
+    marginVertical: -0,
+    borderColor: "#000",
+    borderRadius: 10,
+    alignSelf: "flex-start",
+    position: "fixed",
+    bottom: 50,
+    right: "5%",
+  },
+  boton2: {
+    backgroundColor: "#000",
+    height: 30,
+    width: 162,
+    borderWidth: 2,
+    padding: 10,
+    marginVertical: -20,
+    borderColor: "#000",
+    borderRadius: 10,
+    alignSelf: "flex-end",
+    position: "fixed",
+    bottom: 70,
+    right: "52%",
+  },
+  texto1: {
+    fontFamily: "Calibri",
+    fontSize: 13,
+    color: "#fff",
+    alignSelf: "center",
+    padding: 0,
   },
 });
 

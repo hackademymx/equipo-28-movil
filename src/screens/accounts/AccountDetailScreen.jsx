@@ -38,7 +38,6 @@ const AccountDetailScreen = ({ navigation }) => {
   //const [isLoading, setLoading] = React.useState(false);
 
   const { userInfo } = useContext(AuthContext);
-  
 
   const updateAccount = (text, name) => {
     setAccount({
@@ -59,7 +58,7 @@ const AccountDetailScreen = ({ navigation }) => {
   console.log(account.account_name);
 }, [account]);*/
 
-  const getAccountDetail = async () => {
+  const getAccountDetail = async () => {      
     try {
       let accId = route.params.id;
       console.log("Id de cuenta" + accId);
@@ -81,8 +80,30 @@ const AccountDetailScreen = ({ navigation }) => {
     }
   };
 
+  const modifyAccount = async () => {
+    try {
+      let accId = route.params.id;
+      
+      setLoading(true);
+      const response = await request({data:account,
+        method: "put",
+        url: `/accounts/${accId}`,
+      }); //sin el último slash
+      setLoading(false);
+      navigation.navigate("AccountList");
+      alert("Se actualizó Cuenta");
+
+      //estari cool que navegara al stacks
+    } catch (error) {
+      setLoading(false);
+      // setError(data.msg ? data.msg : data.error);
+      console.error(error);
+      alert(error);
+    }
+    };
+
   const deleteAccount = async () => {
-    try{
+    try {
       let accId = route.params.id;
       console.log("Intento eliminar Id de cuenta " + accId);
       setLoading(true);
@@ -91,19 +112,17 @@ const AccountDetailScreen = ({ navigation }) => {
         url: `/accounts/${accId}`,
       }); //sin el último slash
       setLoading(false);
-      navigation.navigate('AccountList');
+      navigation.navigate("AccountList");
       alert("Se eliminó :3");
-      
-      
+
       //estari cool que navegara al stacks
-    }catch(error){
+    } catch (error) {
       setLoading(false);
       // setError(data.msg ? data.msg : data.error);
       console.error(error);
       alert(error);
-      
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -150,16 +169,12 @@ const AccountDetailScreen = ({ navigation }) => {
         setValue={(text) => updateAccount(text, "cutoff_date")}
       />
 
-      
-
-      <TouchableOpacity style={styles.boton1} onPress={() => console.log("Intento actualizar" + route.params.id)}>
+      <TouchableOpacity style={styles.boton1} onPress={modifyAccount}>
         <Text style={styles.texto1}>Actualizar</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.boton2} onPress={deleteAccount}>
         <Text style={styles.texto1}>Eliminar</Text>
       </TouchableOpacity>
-
-
     </View>
   );
 };
@@ -253,3 +268,5 @@ const styles = StyleSheet.create({
 */
 
 export default AccountDetailScreen;
+
+//() => console.log("Intento actualizar" + route.params.id)

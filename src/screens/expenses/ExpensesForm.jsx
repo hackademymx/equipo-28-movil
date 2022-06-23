@@ -133,7 +133,7 @@ const HomeScreen = ({navigation}) => {
         value={gasto.flow_type}
         setValue={(text) => changeGasto(text, "flow_type")}
       /> */}
-  <Text>Cuanta asociada:</Text>
+  <Text>Cuenta asociada:</Text>
       <Picker
         selectedValue={gasto.account_fkey}
         onValueChange={(text) => changeGasto(text, "account_fkey")}

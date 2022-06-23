@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {Button, StyleSheet, Text, View, Image} from 'react-native';
-
+import { useIsFocused } from "@react-navigation/native";
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../../context/AuthContext';
 import axios from 'axios';
@@ -10,7 +10,7 @@ import { Picker } from "@react-native-picker/picker";
 //import DatePicker from 'react-native-date-picker';
 //import DateTimePicker from '@react-native-community/datetimepicker';
 import { MyTextInput, MyBoton } from "../../components/";
-
+import request from "../../api"
 import {BASE_URL} from '../../config';
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
@@ -137,20 +137,20 @@ const HomeScreen = ({navigation}) => {
       />
       {/*<Text>Fecha de Corte:</Text>*/}
 
-      <MyTextInput
+      {cuenta.type_account!="EFECTIVO"&&<MyTextInput
         label="Clabe Interbancaria:"
         place=" "
         value={cuenta.account_cbe}
         setValue={(text) => changeCuenta(text, "account_cbe")}
-      />
+      />}
       
 
-      <MyTextInput
+      {cuenta.type_account!="EFECTIVO"&&<MyTextInput
         label="Fecha de corte:"
         place=" e.g. 2022-12-31 "
         value={cuenta.cutoff_date}
         setValue={(text) => changeCuenta(text, "cutoff_date")}
-      />
+      />}
 
       {/*<View>
         <Button title='DatePicker' onPress={()=>showMode('date')}/>

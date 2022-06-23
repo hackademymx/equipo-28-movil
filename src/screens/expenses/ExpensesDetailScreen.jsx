@@ -3,6 +3,7 @@ import {Button, StyleSheet, Text, View, Image} from 'react-native';
 import { useRoute, useIsFocused } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../../context/AuthContext';
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import axios from 'axios';
 import { Picker } from "@react-native-picker/picker";
 //import DatePicker from "react-datepicker";
@@ -46,7 +47,7 @@ const ExpensesDetailScreen = ({navigation}) => {
       let expId = route.params.id;
       console.log('Id de cuenta'+expId);
       setLoading(true);
-      const response = await request({method: 'get', url: `/movements/detail/${expId}`}) //sin el último slash
+      const response = await request({method: "get", url: `/movements/detail/${expId}`}); //sin el último slash
       console.log("RESPONSE =>",response.data)
       setLoading(false);
       setExpenses(response.data);
@@ -66,6 +67,50 @@ const ExpensesDetailScreen = ({navigation}) => {
   //     <ActivityIndicator></ActivityIndicator> 
   //   )
   // }
+  const modifyExpenses = async () => {
+    try {
+      let expId = route.params.id;
+      
+      setLoading(true);
+      const response = await request({data:gasto,
+        method: "put",
+        url: `/movements/detail/${expId}`,
+      }); //sin el último slash
+      setLoading(false);
+      navigation.navigate("ExpensestList");
+      alert("Se actualizó Gasto");
+
+      //estari cool que navegara al stacks
+    } catch (error) {
+      setLoading(false);
+      // setError(data.msg ? data.msg : data.error);
+      console.error(error);
+      alert(error);
+    }
+    };
+
+  const deleteExpenses = async () => {
+    try {
+      let expId = route.params.id;
+      console.log("Intento eliminar Id de cuenta " + expId);
+      setLoading(true);
+      const response = await request({
+        method: "delete",
+        url: `/movements/detail/${expId}`,
+      }); //sin el último slash
+      setLoading(false);
+      navigation.navigate("ExpensesList");
+      alert("Se eliminó Gasto");
+
+      //estari cool que navegara al stacks
+    } catch (error) {
+      setLoading(false);
+      // setError(data.msg ? data.msg : data.error);
+      console.error(error);
+      alert(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       
@@ -112,6 +157,12 @@ const ExpensesDetailScreen = ({navigation}) => {
         value={expenses.flow_type}
         setValue={(text) => updateExpenses(text, "flow_type")}
       /> */}
+       <TouchableOpacity style={styles.boton1} onPress={modifyExpenses}>
+        <Text style={styles.texto1}>Actualizar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.boton2} onPress={deleteExpenses}>
+        <Text style={styles.texto1}>Eliminar</Text>
+      </TouchableOpacity>
     
     </View>
   );
@@ -132,6 +183,42 @@ const styles = StyleSheet.create({
     width: 90,
     alignSelf: "flex-end",
     margin: 0,
+  },
+  boton1: {
+    backgroundColor: "#000",
+    height: 30,
+    width: 162,
+    borderWidth: 2,
+    padding: 10,
+    margin: 0,
+    marginVertical: -0,
+    borderColor: "#000",
+    borderRadius: 10,
+    alignSelf: "flex-start",
+    position: "fixed",
+    bottom: 50,
+    right: "5%",
+  },
+  boton2: {
+    backgroundColor: "#000",
+    height: 30,
+    width: 162,
+    borderWidth: 2,
+    padding: 10,
+    marginVertical: -20,
+    borderColor: "#000",
+    borderRadius: 10,
+    alignSelf: "flex-end",
+    position: "fixed",
+    bottom: 70,
+    right: "52%",
+  },
+  texto1: {
+    fontFamily: "Calibri",
+    fontSize: 13,
+    color: "#fff",
+    alignSelf: "center",
+    padding: 0,
   },
 });
 
