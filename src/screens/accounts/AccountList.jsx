@@ -56,14 +56,15 @@ const AccountList = ({navigation}) => {
   };
 
   return (
-    
-    
+
         <ScrollView style={styles.container}>
           {account.map((acc, idx) => {
             return (
             <TouchableOpacity key={`account-${idx}`} onPressIn={()=>navigation.navigate('AccountDetail', acc)}>
               <View style={styles.accItem}> 
-                <Text >{acc.account_name}-{acc.type_account}-{acc.current_balance}</Text> 
+                <Text >{acc.account_name}</Text> 
+                <Text>{acc.type_account}</Text>
+                <Text>{acc.current_balance}</Text>
               </View>
             </TouchableOpacity>
             )

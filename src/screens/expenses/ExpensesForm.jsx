@@ -10,6 +10,7 @@ import { Picker } from "@react-native-picker/picker";
 //import DatePicker from 'react-native-date-picker';
 import { MyTextInput, MyBoton } from "../../components/";
 import request from "../../api";
+import APIPicker from '../../components/ApiPicker';
 
 import {BASE_URL} from '../../config';
 
@@ -134,7 +135,7 @@ const HomeScreen = ({navigation}) => {
         setValue={(text) => changeGasto(text, "flow_type")}
       /> */}
   <Text>Cuanta asociada:</Text>
-      <Picker
+      {/* <Picker
         selectedValue={gasto.account_fkey}
         onValueChange={(text) => changeGasto(text, "account_fkey")}
         placeholder="Tipo de cuenta"
@@ -149,8 +150,16 @@ const HomeScreen = ({navigation}) => {
           :
           <Picker.Item label="Loading..." />
         }
-      </Picker>
+      </Picker> */}
 
+      <APIPicker url="/accounts/" 
+        selectedValue={gasto.account_fkey}
+        onValueChange={(text) => changeGasto(text, "account_fkey")}
+        placeholder="Tipo de cuenta"
+        labelmain="Selecciona una cuenta"
+        itemlabel="account_name"
+        />
+        
 
       <MyBoton text="GUARDAR" onPress={enviarGasto} />
     </View>
