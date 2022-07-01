@@ -25,7 +25,7 @@ const HomeScreen = ({navigation}) => {
     account_num: "",
     current_balance: "",
     account_cbe: "",
-    cutoff_date: "",
+    cutoff_date: "2022-11-11",
   };
   const [cuenta, setCuenta] = React.useState(cuentaDefault);
   //const [isLoading, setLoading] = React.useState(false);

@@ -5,6 +5,9 @@ import { MyTextInput } from "../../components";
 import {AuthContext} from '../../context/AuthContext';
 import axios from 'axios';
 import request from "../../api";
+import SelectBox from 'react-native-multi-selectbox';
+import { xorBy } from 'lodash'
+
 
 import {BASE_URL} from '../../config';
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -18,6 +21,8 @@ const AccountList = ({navigation}) => {
   const [Error, setError] = useState("");
   const [Loading, setLoading] = useState(false);
   const {userInfo} = useContext(AuthContext);
+
+  //const options = [{item: 'EFECTIVO'}]
 
   useEffect(() => {
     if (isFocused) {
@@ -63,7 +68,9 @@ const AccountList = ({navigation}) => {
             return (
             <TouchableOpacity key={`account-${idx}`} onPressIn={()=>navigation.navigate('AccountDetail', acc)}>
               <View style={styles.accItem}> 
-                <Text >{acc.account_name}-{acc.type_account}-{acc.current_balance}</Text> 
+                <Text style={styles.accTitle}>{acc.account_name}</Text>
+                <Text>{acc.type_account}</Text>
+                <Text>{acc.current_balance}</Text>
               </View>
             </TouchableOpacity>
             )
@@ -74,13 +81,13 @@ const AccountList = ({navigation}) => {
 };
 
 const styles= StyleSheet.create({
-  textInput: {
+textInput: {
       backgroundColor: "#fff",
       padding:10,
       borderWidth: 1,
       borderColor: "#000",
   },
-  eliminar:{
+eliminar:{
     color: "gold",
     backgroundColor: "#000",
     alignSelf: "flex-start",
@@ -103,14 +110,20 @@ container: {
 },
 accItem:{
   backgroundColor:'#F2F2F2',
-  padding:10,
-  borderRadius:8,
+  padding:4,
+  borderRadius:10,
  // borderWidth:1,
   //borderColor:'#000020',
+  marginHorizontal: 10,
   marginBottom:10,
   flexDirection:'column',
   alignItems:'center',
   justifyContent:'center',
+},
+accTitle:{
+  fontSize: 20,
+  fontFamily: "Calibri",
+  fontStyle: "bold",
 },
 });
 
