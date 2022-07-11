@@ -20,7 +20,7 @@ const ImgLogo = require("../../../assets/MLogo.jpg");
 
 export default function TagsScreen({ navigation }) {
   const [etiqueta, setEtiqueta] = useState({
-    description: "",
+    // description: "",
     flow_type: "",
     cost_type: "",
     tag_color: "",
@@ -44,7 +44,7 @@ export default function TagsScreen({ navigation }) {
       setLoading(true);
       const response = await request({method: 'post', url: '/customtags/', data: etiqueta});
       setLoading(false);
-      alert('Etiqueta exitosamente registrada');
+      alert('Etiqueta registrada');
     } catch (error) {
       const data = error.response.data;
       setLoading(false);
@@ -77,12 +77,12 @@ export default function TagsScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
-      <MyTextInput
+      {/* <MyTextInput
         label="Descripción:"
         place=" "
         value={etiqueta.description}
         setValue={(text) => changeEtiqueta(text, "description")}
-      />
+      /> */}
     <Text>Tipo:</Text>
       <Picker
         selectedValue={etiqueta.flow_type}

@@ -7,6 +7,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
+//import RecoverPasswordScreen from '../screens/auth/RecoverpasswordScreen';
 import {AuthContext} from '../context/AuthContext';
 import SplashScreen from '../screens/SplashScreen';
 import HomeNavigation from './HomeNavigation';
@@ -27,6 +28,11 @@ const AuthNavigation = () => {
               component={RegisterScreen}
               options={{headerShown: false}}
             />     
+            {/* <AuthStack.Screen
+              name="RecoverPassword"
+              component={RecoverPasswordScreen}
+              options={{headerShown: false}}
+            />      */}
         </AuthStack.Navigator>
 
     );

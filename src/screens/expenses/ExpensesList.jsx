@@ -29,7 +29,7 @@ const ExpensesList = ({navigation}) => {
     
     try {
       setLoading(true);
-      const response = await request({method: 'get', url: '/movements/'})
+      const response = await request({method: 'get', url: '/movements?flow_type__contains=EGRESOS'})
       console.log(response.data)
       setLoading(false);
       setExpenses(response.data)
@@ -99,7 +99,7 @@ container: {
   backgroundColor: '#FFFFFF', //RRGGBB hex
   flexDirection: 'column',
 },
-accItem:{
+expItem:{
   backgroundColor:'#F2F2F2',
   padding:10,
   borderRadius:8,

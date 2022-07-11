@@ -47,7 +47,7 @@ const ExpensesDetailScreen = ({navigation}) => {
       let expId = route.params.id;
       console.log('Id de cuenta'+expId);
       setLoading(true);
-      const response = await request({method: "get", url: `/movements/detail/${expId}`}); //sin el último slash
+      const response = await request({method: "get", url: `/movements/update/${expId}`}); //sin el último slash
       console.log("RESPONSE =>",response.data)
       setLoading(false);
       setExpenses(response.data);
@@ -72,12 +72,12 @@ const ExpensesDetailScreen = ({navigation}) => {
       let expId = route.params.id;
       
       setLoading(true);
-      const response = await request({data:gasto,
+      const response = await request({data:expenses,
         method: "put",
-        url: `/movements/detail/${expId}`,
+        url: `/movements/update/${expId}`,
       }); //sin el último slash
       setLoading(false);
-      navigation.navigate("ExpensestList");
+      navigation.navigate("ExpensesList");
       alert("Se actualizó Gasto");
 
       //estari cool que navegara al stacks
@@ -96,7 +96,7 @@ const ExpensesDetailScreen = ({navigation}) => {
       setLoading(true);
       const response = await request({
         method: "delete",
-        url: `/movements/detail/${expId}`,
+        url: `/movements/update/${expId}`,
       }); //sin el último slash
       setLoading(false);
       navigation.navigate("ExpensesList");
@@ -145,8 +145,8 @@ const ExpensesDetailScreen = ({navigation}) => {
 
       <MyTextInput
         label="Cuenta Asociada al Gasto:"
-        place={expenses.account_fkey?.account_name}
-        value={expenses.account_fkey?.account_name}
+        place={expenses.account_fkey}
+        value={expenses.account_fkey}
         setValue={(text) => updateExpenses(text, "account_fkey")}
         
       />

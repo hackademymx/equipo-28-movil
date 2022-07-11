@@ -15,6 +15,7 @@ import AccountsNavigator from './accounts/AccountsNavigation';
 import TagsNavigator from './tags/TagsNavigator';
 import ExpensesNavigator from "./expenses/ExpensesNavigation";
 import IncomesNavigator from "./incomes/IncomesNavigation";
+import SavingsNavigator from "./Savings/SavingsNavigation";
 import Logout from '../screens/auth/Logout';
 
 const ImgLogo = require("../../assets/MLogo.jpg");
@@ -38,7 +39,7 @@ const HomeNavigation = ({navigation}) => {
             <Home.Screen name="Etiquetas" component={TagsNavigator}/>
             <Home.Screen name="Gastos" component={ExpensesNavigator}/>
             <Home.Screen name="Ingresos" component={IncomesNavigator}/>
-
+            <Home.Screen name="Metas" component={SavingsNavigator}/>
             <Home.Screen name="Cerrar Sesion" component={Logout}/>
             {/*<Home.Screen name="Cuentas" component={HomeScreen}/>*/}
             

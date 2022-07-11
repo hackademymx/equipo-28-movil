@@ -14,6 +14,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../../context/AuthContext';
 import {passwordValidation} from "../../../utils/validation";
 import { MyTextInput, MyBoton } from "../../components"
+import { CurrentRenderContext } from '@react-navigation/native';
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
@@ -85,10 +86,10 @@ const RegisterScreen = ({navigation}) => {
         )}
       </View>
 
-      <View style={{flexDirection: 'row', marginTop: 20}}>
-          <Text>Already have an accoutn? </Text>
+      <View style={{flexDirection: 'row', marginTop: 30, justifyContent: "center"}}>
+          <Text>¿Ya tienes cuenta? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.link}>Login</Text>
+            <Text style={styles.link}>Ingresa</Text>
           </TouchableOpacity>
       </View>
     </View>

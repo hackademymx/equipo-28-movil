@@ -6,49 +6,53 @@ import { AuthContext } from "../../context/AuthContext";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
-//import DatePicker from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
-//import DatePicker from 'react-native-date-picker';
+
 import { MyTextInput, MyBoton } from "../../components";
 import request from "../../api";
+
 import { BASE_URL } from "../../config";
+
+//import { useState } from 'react/cjs/react.production.min';
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
-const IncomesDetailScreen = ({ navigation }) => {
-  const route = useRoute();
-  const [incomes, setIncomes] = useState({});
+
+const TagsDetailScreen = ({ navigation }) => {
+  const route = useRoute(); 
+  const [etiqueta, setEtiqueta] = useState({});
   const isFocused = useIsFocused();
   const [Loading, setLoading] = useState(false);
+ 
 
   const { userInfo } = useContext(AuthContext);
 
-  const updateIncomes = (text, name) => {
-    setIncomes({
-      ...incomes,
+  const updateTags = (text, name) => {
+    setEtiqueta({
+      ...etiqueta,
       [name]: text,
     });
   };
 
   useEffect(() => {
     if (isFocused) {
-      getIncomesDetail();
+      getTagsDetail();
     }
   }, [isFocused]);
 
-  const getIncomesDetail = async () => {
+ 
+  const getTagsDetail = async () => {      
     try {
-      let incId = route.params.id;
-      console.log("Id de cuenta" + incId);
+      let accId = route.params.id;
+      console.log("Id de cuenta" + tagId);
       setLoading(true);
       const response = await request({
         method: "get",
-        url: `/movements/detail/${incId}`,
+        url: `/customtags/${tagId}`,
       }); //sin el último slash
 
       setLoading(false);
-      setIncomes(response.data);
-     
+      setEtiqueta(response.data);
+      //console.log(account);
     } catch (error) {
       //const data = error.response.data;
       setLoading(false);
@@ -58,41 +62,40 @@ const IncomesDetailScreen = ({ navigation }) => {
     }
   };
 
-  const modifyIncome = async () => {
+  const modifyTag = async () => {
     try {
-      let incId = route.params.id;
-      console.log(incId);
+      let tagId = route.params.id;
+      
       setLoading(true);
-      const response = await request({
-        data: incomes,
+      const response = await request({data:etiqueta,
         method: "put",
-        url: `/movements/detail/${incId}`,
+        url: `/customtag/${tagId}`,
       }); //sin el último slash
       setLoading(false);
-      navigation.navigate("IncomesList");
-      alert("Se actualizó Ingreso");
+      navigation.navigate("TagsList");
+      alert("Se actualizó Etiqueta");
 
-      //estari cool que navegara al stacks
+    
     } catch (error) {
       setLoading(false);
-      // setError(data.msg ? data.msg : data.error);
+    
       console.error(error);
       alert(error);
     }
-  };
+    };
 
-  const deleteIncome = async () => {
+  const deleteTag = async () => {
     try {
-      let incId = route.params.id;
-      console.log("Intento eliminar Id de cuenta " + accId);
+      let tagId = route.params.id;
+      console.log("Intento eliminar etiqueta " + tagId);
       setLoading(true);
       const response = await request({
         method: "delete",
-        url: `/movements/detail/${incId}`,
-      }); //sin el último slash
+        url: `/customtag/${tagId}`,
+      }); 
       setLoading(false);
-      navigation.navigate("IncomesList");
-      alert("Se eliminó Ingreso");
+      navigation.navigate("TagsList");
+      alert("Se eliminó etiqueta");
 
       //estari cool que navegara al stacks
     } catch (error) {
@@ -107,48 +110,36 @@ const IncomesDetailScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
-        label="Concepto del Ingreso:"
-  
-        value={incomes.flow_type}
-        setValue={(text) => updateIncomes(text, "flow_type")}
-      />
-
-      {/* <MyTextInput
-        label="Fecha:"
-        place={incomes.incomes_date}
-        value={incomes.incomes_date}
-        setValue={(text) => updateIncomes(text, "incomes_date")}
-      /> */}
-
-      <MyTextInput
-        label="Monto:"
-        place={incomes.amount}
-        value={incomes.amount}
-        setValue={(text) => updateIncomes(text, "amount")}
+        label="Tipo:"
+        place={route.params.etiqueta.flow_type}
+        value={etiqueta.etiqueta.flow_typee}
+        setValue={(text) => updateTags(text, "flow_type")}
       />
 
       <MyTextInput
-        label="Descripcion:"
-        place={incomes.description}
-        value={incomes.description}
-        setValue={(text) => updateIncomes(text, "description")}
+        label="Clasificación:"
+        place={etiqueta.cost_type}
+        value={etiqueta.cost_type}
+        setValue={(text) => updateTags(text, "cost_type")}
       />
 
       <MyTextInput
-        label="Cuenta:"
-        place={incomes.account_fkey?.account_name}
-        value={incomes.account_fkey?.account_name}
-        setValue={(text) => updateIncomes(text, "account_fkey?.account_name")}
+        label="Color:"
+        place={tag.tag_color}
+        value={tag.tag_color}
+        setValue={(text) => updateTags(text, "tag_color")}
       />
-      <TouchableOpacity style={styles.boton1} onPress={modifyIncome}>
+
+      <TouchableOpacity style={styles.boton1} onPress={modifyTag}>
         <Text style={styles.texto1}>Actualizar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boton2} onPress={deleteIncome}>
+      <TouchableOpacity style={styles.boton2} onPress={deleteTag}>
         <Text style={styles.texto1}>Eliminar</Text>
       </TouchableOpacity>
     </View>
   );
 };
+//navigation.getParam('id')
 
 const styles = StyleSheet.create({
   container: {
@@ -203,4 +194,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IncomesDetailScreen;
+
+export default TagsDetailScreen;
+

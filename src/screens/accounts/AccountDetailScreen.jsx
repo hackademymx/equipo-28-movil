@@ -113,7 +113,7 @@ const AccountDetailScreen = ({ navigation }) => {
       }); //sin el último slash
       setLoading(false);
       navigation.navigate("AccountList");
-      alert("Se eliminó :3");
+      alert("Se eliminó Cuenta");
 
       //estari cool que navegara al stacks
     } catch (error) {

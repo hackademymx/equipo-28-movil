@@ -122,12 +122,13 @@ const HomeScreen = ({navigation}) => {
         <Picker.Item label="Vales" value="VALES" />
       </Picker>
 
-      {cuenta.type_account!="EFECTIVO"&&<MyTextInput
+      {/*cuenta.type_account!="EFECTIVO"&&*/}
+      <MyTextInput
         label="Número de cuenta:"
         place=" "
         value={cuenta.account_num}
         setValue={(text) => changeCuenta(text, "account_num")}
-      />}
+      />
 
       <MyTextInput
         label="Saldo Actual:"
@@ -135,22 +136,21 @@ const HomeScreen = ({navigation}) => {
         value={cuenta.current_balance}
         setValue={(text) => changeCuenta(text, "current_balance")}
       />
-      {/*<Text>Fecha de Corte:</Text>*/}
+     
 
-      {cuenta.type_account!="EFECTIVO"&&<MyTextInput
+     <MyTextInput
         label="Clabe Interbancaria:"
         place=" "
         value={cuenta.account_cbe}
         setValue={(text) => changeCuenta(text, "account_cbe")}
-      />}
-      
+      />      
 
-      {cuenta.type_account!="EFECTIVO"&&<MyTextInput
+     <MyTextInput
         label="Fecha de corte:"
         place=" e.g. 2022-12-31 "
         value={cuenta.cutoff_date}
         setValue={(text) => changeCuenta(text, "cutoff_date")}
-      />}
+      />
 
       {/*<View>
         <Button title='DatePicker' onPress={()=>showMode('date')}/>

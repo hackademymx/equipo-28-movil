@@ -14,7 +14,7 @@ export default function IncomesListNavigator(){
            <IncomesListStack.Screen 
                 name="IncomesDetail" 
                 component={IncomesDetailScreen} 
-                options={({ route }) => ({ title: 'Detalle de Ingresos: ' + route.params.incomes_name })}/>
+                options={{headerShown: false}}/>
        </IncomesListStack.Navigator> 
     )
 }

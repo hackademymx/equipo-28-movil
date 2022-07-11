@@ -1,18 +1,21 @@
 import React, {useContext, useEffect, useState} from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Modal } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
+//import colors from "./utils/colors.js"
 import { MyTextInput } from "../../components";
 import {AuthContext} from '../../context/AuthContext';
 import axios from 'axios';
 import request from "../../api";
 
+
 import {BASE_URL} from '../../config';
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
-const IncomesList = ({navigation}) => {
-  const [Incomes, setIncomes] = useState([]);
+const TagsList = ({navigation}) => {
+  const [etiqueta, setEtiqueta] = useState([]);
+  //const {account, deleteData} = React.useContext()
   const isFocused = useIsFocused();
   const [Error, setError] = useState("");
   const [Loading, setLoading] = useState(false);
@@ -20,46 +23,49 @@ const IncomesList = ({navigation}) => {
 
   useEffect(() => {
     if (isFocused) {
-      getIncomes();
+      getTags();
     }
   }, [isFocused]);
 
-  const getIncomes = async () => {
+  const getTags = async () => {
     
     try {
       setLoading(true);
-      const response = await request({method: 'get', url: '/movements?flow_type__contains=INGRESOS'})
+      const response = await request({method: 'get', url: '/customtags/'})
       console.log(response.data)
       setLoading(false);
-      setIncomes(response.data)
+      setEtiqueta(response.data)
     } catch (error) {
       
-     
+      //const data = error.response.data;
       setLoading(false);
+     // setError(data.msg ? data.msg : data.error);
       console.error(error);
       alert(error);
     }
 
+    //const response= await axios.get(`${BASE_URL}/accounts/`);
   };
 
   const eliminarElemento= async (idx) => {
-    const response = await axios.delete(`${BASE_URL}/movements/${idx}`) 
+    const response = await axios.delete(`${BASE_URL}/customtags/${idx}`) 
     deleteData(idx);
   }
 
-  const incomesDetail = ({...inc}) => {
-    navigation.navigate('IncomesDetail')
+  const tagsDetail = ({...tag}) => {
+    //console.log('POD'+acc.id+'-')
+    navigation.navigate('TagsDetail')
   };
 
   return (
     
     
         <ScrollView style={styles.container}>
-          {Incomes.map((inc, idx) => {
+          {etiqueta.map((tag, idx) => {
             return (
-            <TouchableOpacity key={`incomes-${idx}`} onPressIn={()=>navigation.navigate('IncomesDetail', inc)}>
-              <View style={styles.incItem}> 
-                <Text >{inc.amount}-{inc.description}-{inc.account_name}</Text> 
+            <TouchableOpacity key={`customtags-${idx}`} onPressIn={()=>navigation.navigate('TagsDetailScreen', tag)}>
+              <View style={styles.tagItem}> 
+                <Text style={{color:tag.tag_color}}>{tag.flow_type}-{tag.cost_type}</Text> 
               </View>
             </TouchableOpacity>
             )
@@ -97,7 +103,7 @@ container: {
   backgroundColor: '#FFFFFF', //RRGGBB hex
   flexDirection: 'column',
 },
-incItem:{
+tagItem:{
   backgroundColor:'#F2F2F2',
   padding:10,
   borderRadius:8,
@@ -110,6 +116,4 @@ incItem:{
 },
 });
 
-export default IncomesList;
-
-  
+export default TagsList;
