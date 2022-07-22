@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet} from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { MyTextInput } from "../../components";
 import { AuthContext } from "../../context/AuthContext";
@@ -11,8 +11,8 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
-const IncomesList = ({ navigation }) => {
-  const [Incomes, setIncomes] = useState([]);
+const MetaList = ({ navigation }) => {
+  const [meta, setMeta] = useState([]);
   const isFocused = useIsFocused();
   const [Error, setError] = useState("");
   const [Loading, setLoading] = useState(false);
@@ -20,47 +20,49 @@ const IncomesList = ({ navigation }) => {
 
   useEffect(() => {
     if (isFocused) {
-      getIncomes();
+      getMeta();
     }
   }, [isFocused]);
 
-  const getIncomes = async () => {
+  const getMeta= async () => {
     try {
       setLoading(true);
-      const response = await request({
-        method: "get",
-        url: "/movements?flow_type__contains=INGRESOS",
-      });
+      const response = await request({ method: "get", url: "/goals/" });
       console.log(response.data);
       setLoading(false);
-      setIncomes(response.data);
+      setMeta(response.data);
     } catch (error) {
+      //const data = error.response.data;
       setLoading(false);
+      // setError(data.msg ? data.msg : data.error);
       console.error(error);
       alert(error);
     }
+
+   
   };
 
   const eliminarElemento = async (idx) => {
-    const response = await axios.delete(`${BASE_URL}/movements/${idx}`);
+    const response = await axios.delete(`${BASE_URL}/goals/${idx}`);
     deleteData(idx);
   };
 
-  const incomesDetail = ({ ...inc }) => {
-    navigation.navigate("IncomesDetail");
+  const metaDetail = ({ ...sav }) => {
+    //console.log('POD'+acc.id+'-')
+    navigation.navigate("MetaDetail");
   };
 
   return (
     <ScrollView style={styles.container}>
-      {Incomes.map((inc, idx) => {
+      {meta.map((met, idx) => {
         return (
           <TouchableOpacity
-            key={`incomes-${idx}`}
-            onPressIn={() => navigation.navigate("IncomesDetail", inc)}
+            key={`goals-${idx}`}
+            onPressIn={() => navigation.navigate("MetaDetail", met)}
           >
-            <View style={styles.incItem}>
+            <View style={styles.metItem}>
               <Text>
-                {inc.amount}-{inc.description}-{inc.account_name}
+                {met.meta.concept}-{met.account_savings}-{met.ahorro.total}
               </Text>
             </View>
           </TouchableOpacity>
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF", //RRGGBB hex
     flexDirection: "column",
   },
-  incItem: {
+  metItem: {
     backgroundColor: "#F2F2F2",
     padding: 10,
     borderRadius: 8,
@@ -111,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IncomesList;
+export default MetaList;

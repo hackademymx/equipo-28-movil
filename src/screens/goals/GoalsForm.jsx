@@ -5,32 +5,35 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
-//import DatePicker from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
-//import DatePicker from 'react-native-date-picker';
 import { MyTextInput, MyBoton } from "../../components/";
 import request from "../../api";
-
 import { BASE_URL } from "../../config";
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
-const IncomesHomeScreen = ({ navigation }) => {
-  const [ingreso, setIngreso] = React.useState({
-    flow_type: "INGRESOS",
+const Meta = ({ navigation }) => {
+  const goalsDefault = {
+    concept: "",
+    start_date: "",
+    end_date: "",
     amount: "",
-    description: "",
-    account_fkey: "",
-  });
-  //const [isLoading, setLoading] = React.useState(false);
+    period: "",
+    goal_color: "",
+    total: "",
+    account_savings: "",
+  };
+  const [meta, setMeta] = React.useState(goalsDefault);
   const [accounts, setAccounts] = useState([]);
+ 
   const [Error, setError] = React.useState("");
   const [PickerItems, SetPickerItems] = React.useState();
   const [startDate, setStartDate] = React.useState(new Date());
   const [Loading, setLoading] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const [mode, setMode] = useState("date");
+  const [date, setDate] = useState(new Date());
 
-  //const {userInfo} = useContext(AuthContext);
-
+  const { userInfo } = useContext(AuthContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -52,73 +55,103 @@ const IncomesHomeScreen = ({ navigation }) => {
       alert(error);
     }
   };
+  const enviarMeta = async () => {
+    const access_token = userInfo.tokens.access;
+    const headers = {
+      Authorization: `Bearer ${access_token}`,
+    };
 
-  const enviarIngreso = async () => {
-   
     try {
       setLoading(true);
-      const response = await request({
-        method: "post",
-        url: "/movements/",
-        data: ingreso,
-      }); 
+      const response = await axios.post(`${BASE_URL}/goals/`, meta, {
+        headers: headers,
+      });
 
       setLoading(false);
-      alert("Nuevo Ingreso registrado");
+      alert("Nueva Meta Registrada");
+      setMeta(goalsDefault);
     } catch (error) {
+      const data = error.response.data;
       setLoading(false);
-    
+      setError(data.msg ? data.msg : data.error);
       console.error(error);
       alert(error);
     }
   };
 
-  const changeIngreso = (text, name) => {
-    setIngreso({
-      ...ingreso,
+  const changeMeta = (text, name) => {
+    setMeta({
+      ...meta,
       [name]: text,
     });
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    let tempDate = new Date(currentDate);
+    //let fDate = tempDate.getFullYear() + '-' (tempDate.getMonth()+1) + '-' tempDate.getDate();
+    console.log(tempDate);
+    //setShow(false);
   };
 
   return (
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
-        label="Concepto del Ingreso:"
+        label="Concepto de Meta:"
         place=" "
-        value={ingreso.flow_type}
-        setValue={(text) => changeIngreso(text, "flow_type")}
+        value={meta.concept}
+        setValue={(text) => changeMeta(text, "concept")}
       />
 
-      {/* <MyTextInput
-        label="Fecha:"
+      <MyTextInput
+        label="Fecha de Inicio:"
         place=" e.g. 2022-12-31 "
-        value={ingreso.incomes_date}
-        setValue={(text) => changeIngreso(text, "incomes_date")}
-      /> */}
-
-      <MyTextInput
-        label="Monto:"
-        place=" "
-        value={ingreso.amount}
-        setValue={(text) => changeIngreso(text, "amount")}
+        value={meta.start_date}
+        setValue={(text) => changeMeta(text, "start_date")}
       />
 
       <MyTextInput
-        label="Descripción:"
-        place=" "
-        value={ingreso.description}
-        setValue={(text) => changeIngreso(text, "description")}
+        label="Fecha de Vencimiento:"
+        place=" e.g. 2022-12-31 "
+        value={meta.end_date}
+        setValue={(text) => changeMeta(text, "end_date")}
       />
+
+      <MyTextInput
+        label="Importe:"
+        place=" "
+        value={meta.amount}
+        setValue={(text) => changeMeta(text, "amount")}
+      />
+
+      <Text>Periodo:</Text>
+
+      <Picker
+        selectedValue={meta.period}
+        onValueChange={(text) => changeMeta(text, "period")}
+        placeholder="Periodo de Meta"
+        mode="dropdown"
+      >
+        <Picker.Item label="Selecciona el tipo de periodo" />
+        <Picker.Item label="Semanal" value="SEMANAL" />
+        <Picker.Item label="Quincenal" value="QUINCENAL" />
+        <Picker.Item label="Mensual" value="MENSUAL" />
+      </Picker>
 
       <Text>Cuenta asociada:</Text>
       <Picker
-        selectedValue={ingreso.account_fkey}
-        onValueChange={(text) => changeIngreso(text, "account_fkey")}
+        selectedValue={meta.account_savings}
+        onValueChange={(text) => changeMeta(text, "account_savings")}
         placeholder="Tipo de cuenta"
         mode="dropdown"
       >
-        <Picker.Item label="Selecciona una cuenta" />
+        <Picker.Item label="Selecciona cuenta de Ahorro" />
         {accounts !== [] ? (
           accounts.map((acc, idx) => {
             return (
@@ -134,7 +167,14 @@ const IncomesHomeScreen = ({ navigation }) => {
         )}
       </Picker>
 
-      <MyBoton text="GUARDAR" onPress={enviarIngreso} />
+      <MyTextInput
+        label="Total:"
+        place=" "
+        value={meta.total}
+        setValue={(text) => changeMeta(text, "total")}
+      />
+
+      <MyBoton text="GUARDAR" onPress={enviarMeta} />
     </View>
   );
 };
@@ -156,4 +196,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IncomesHomeScreen;
+export default Meta;

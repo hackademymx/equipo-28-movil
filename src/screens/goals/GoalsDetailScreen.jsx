@@ -6,96 +6,94 @@ import { AuthContext } from "../../context/AuthContext";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
-
 import { MyTextInput, MyBoton } from "../../components";
 import request from "../../api";
-
 import { BASE_URL } from "../../config";
 
-//import { useState } from 'react/cjs/react.production.min';
+
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
 
-const TagsDetailScreen = ({ navigation }) => {
-  const route = useRoute(); 
-  const [etiqueta, setEtiqueta] = useState({});
+const MetaDetailScreen = ({ navigation }) => {
+  const route = useRoute(); //en vez de navigation.getParams
+  const [meta, setMeta] = useState({});
+  //const [account, setAccount] = useState([]);
   const isFocused = useIsFocused();
   const [Loading, setLoading] = useState(false);
- 
 
   const { userInfo } = useContext(AuthContext);
 
-  const updateTags = (text, name) => {
-    setEtiqueta({
-      ...etiqueta,
+  const updateMeta = (text, name) => {
+    setMeta({
+      ...meta,
       [name]: text,
     });
   };
 
   useEffect(() => {
     if (isFocused) {
-      getTagsDetail();
+      getMetaDetail();
     }
   }, [isFocused]);
 
- 
-  const getTagsDetail = async () => {      
+  const getMetaDetail = async () => {
     try {
-      let accId = route.params.id;
-      console.log("Id de cuenta" + tagId);
+      let metId = route.params.id;
+      console.log("Id de cuenta" + metId);
       setLoading(true);
       const response = await request({
         method: "get",
-        url: `/customtags/${tagId}`,
+        url: `/goals/${metId}`,
       }); //sin el último slash
 
       setLoading(false);
-      setEtiqueta(response.data);
-     
+      setMeta(response.data);
+      //console.log(account);
     } catch (error) {
-    
+      //const data = error.response.data;
       setLoading(false);
-     
+      // setError(data.msg ? data.msg : data.error);
       console.error(error);
       alert(error);
     }
   };
 
-  const modifyTag = async () => {
+  const modifyMeta = async () => {
     try {
-      let tagId = route.params.id;
-      
+      let metId = route.params.id;
+
       setLoading(true);
-      const response = await request({data:etiqueta,
+      const response = await request({
+        data: meta,
         method: "put",
-        url: `/customtag/${tagId}`,
+        url: `/goals/${metId}`,
       }); //sin el último slash
       setLoading(false);
-      navigation.navigate("TagsList");
-      alert("Se actualizó Etiqueta");
+      navigation.navigate("MetaList");
+      alert("Se actualizó Cuenta");
 
-    
+      //estari cool que navegara al stacks
     } catch (error) {
       setLoading(false);
-    
+      // setError(data.msg ? data.msg : data.error);
       console.error(error);
       alert(error);
     }
-    };
+  };
 
-  const deleteTag = async () => {
+  const deleteMeta= async () => {
     try {
-      let tagId = route.params.id;
-      console.log("Intento eliminar etiqueta " + tagId);
+      let metId = route.params.id;
+      console.log("Intento eliminar Id de ahorro " + metId);
       setLoading(true);
       const response = await request({
         method: "delete",
-        url: `/customtag/${tagId}`,
-      }); 
+        url: `/goals/${metId}`,
+      }); //sin el último slash
       setLoading(false);
-      navigation.navigate("TagsList");
-      alert("Se eliminó etiqueta");
+      navigation.navigate("MetaList");
+      alert("Se eliminó Meta");
 
       //estari cool que navegara al stacks
     } catch (error) {
@@ -110,30 +108,57 @@ const TagsDetailScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
-        label="Tipo:"
-        place={route.params.etiqueta.flow_type}
-        value={etiqueta.etiqueta.flow_typee}
-        setValue={(text) => updateTags(text, "flow_type")}
+        label="Concepto de Meta:"
+        place={route.params.meta.concept}
+        value={meta.concept}
+        setValue={(text) => changeMeta(text, "concept")}
       />
 
       <MyTextInput
-        label="Clasificación:"
-        place={etiqueta.cost_type}
-        value={etiqueta.cost_type}
-        setValue={(text) => updateTags(text, "cost_type")}
+        label="Fecha de Inicio:"
+        place={meta.start_date}
+        value={meta.start_date}
+        setValue={(text) => changeMeta(text, "start_date")}
       />
 
       <MyTextInput
-        label="Color:"
-        place={tag.tag_color}
-        value={tag.tag_color}
-        setValue={(text) => updateTags(text, "tag_color")}
+        label="Fecha de Vencimiento:"
+        place={meta.end_date}
+        value={meta.end_date}
+        setValue={(text) => changeMeta(text, "end_date")}
       />
 
-      <TouchableOpacity style={styles.boton1} onPress={modifyTag}>
+      <MyTextInput
+        label="Importe:"
+        place={meta.amount}
+        value={meta.amount}
+        setValue={(text) => changeMeta(text, "amount")}
+      />
+      <MyTextInput
+        label="Periodo:"
+        place={meta.period}
+        value={meta.period}
+        setValue={(text) => changeMeta(text, "period")}
+      />
+
+      <MyTextInput
+        label="Número de cuenta:"
+        place={account.account_num}
+        value={account.account_num}
+        setValue={(text) => changeCuenta(text, "account_num")}
+      />
+
+      <MyTextInput
+        label="Saldo Actual:"
+        place={account.current_balance}
+        value={account.current_balance}
+        setValue={(text) => changeCuenta(text, "current_balance")}
+      />
+
+      <TouchableOpacity style={styles.boton1} onPress={modifyMeta}>
         <Text style={styles.texto1}>Actualizar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boton2} onPress={deleteTag}>
+      <TouchableOpacity style={styles.boton2} onPress={deleteMeta}>
         <Text style={styles.texto1}>Eliminar</Text>
       </TouchableOpacity>
     </View>
@@ -195,5 +220,6 @@ const styles = StyleSheet.create({
 });
 
 
-export default TagsDetailScreen;
+
+export default MetaDetailScreen;
 

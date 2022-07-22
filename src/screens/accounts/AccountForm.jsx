@@ -1,24 +1,17 @@
-import React, {useContext, useState} from 'react';
-import {Button, StyleSheet, Text, View, Image} from 'react-native';
+import React, { useContext, useState } from "react";
+import { Button, StyleSheet, Text, View, Image } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import Spinner from 'react-native-loading-spinner-overlay';
-import {AuthContext} from '../../context/AuthContext';
-import axios from 'axios';
+import Spinner from "react-native-loading-spinner-overlay";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
-//import DatePicker from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
-//import DatePicker from 'react-native-date-picker';
-//import DateTimePicker from '@react-native-community/datetimepicker';
 import { MyTextInput, MyBoton } from "../../components/";
-import request from "../../api"
-import {BASE_URL} from '../../config';
+import request from "../../api";
+import { BASE_URL } from "../../config";
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
-//<Spinner visible={isLoading} />
-//<Button title="Logout" color="red" onPress={logout} />
-const HomeScreen = ({navigation}) => {
- 
+const HomeScreen = ({ navigation }) => {
   const cuentaDefault = {
     account_name: "",
     type_account: "",
@@ -34,31 +27,27 @@ const HomeScreen = ({navigation}) => {
   const [startDate, setStartDate] = React.useState(new Date());
   const [Loading, setLoading] = React.useState(false);
   const [show, setShow] = useState(false);
-  const [mode, setMode] = useState('date');
-  const [date, setDate] = useState(new Date())
+  const [mode, setMode] = useState("date");
+  const [date, setDate] = useState(new Date());
 
-  const {userInfo} = useContext(AuthContext);
+  const { userInfo } = useContext(AuthContext);
 
   const enviarCuenta = async () => {
-
     const access_token = userInfo.tokens.access;
     const headers = {
       Authorization: `Bearer ${access_token}`,
     };
 
-    try { 
-      
+    try {
       setLoading(true);
-      const response = await axios.post(`${BASE_URL}/accounts/`,
-        cuenta,
-        { headers: headers }
-      );
+      const response = await axios.post(`${BASE_URL}/accounts/`, cuenta, {
+        headers: headers,
+      });
 
       setLoading(false);
-      alert('Cuenta registrada');
+      alert("Cuenta registrada");
       setCuenta(cuentaDefault);
     } catch (error) {
-      
       const data = error.response.data;
       setLoading(false);
       setError(data.msg ? data.msg : data.error);
@@ -75,9 +64,9 @@ const HomeScreen = ({navigation}) => {
   };
 
   const showMode = (currentMode) => {
-     setShow(true);
-     setMode(currentMode);
-  }
+    setShow(true);
+    setMode(currentMode);
+  };
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -105,12 +94,12 @@ const HomeScreen = ({navigation}) => {
         setValue={(text) => changeCuenta(text, "type_account")}
       />
   */}
-      
+
       <Picker
         selectedValue={cuenta.type_account}
         onValueChange={(text) => changeCuenta(text, "type_account")}
         placeholder="Tipo de cuenta"
-        mode = "dropdown"
+        mode="dropdown"
       >
         <Picker.Item label="Selecciona el tipo de cuenta" />
         <Picker.Item label="Efectivo" value="EFECTIVO" />
@@ -136,16 +125,15 @@ const HomeScreen = ({navigation}) => {
         value={cuenta.current_balance}
         setValue={(text) => changeCuenta(text, "current_balance")}
       />
-     
 
-     <MyTextInput
+      <MyTextInput
         label="Clabe Interbancaria:"
         place=" "
         value={cuenta.account_cbe}
         setValue={(text) => changeCuenta(text, "account_cbe")}
-      />      
+      />
 
-     <MyTextInput
+      <MyTextInput
         label="Fecha de corte:"
         place=" e.g. 2022-12-31 "
         value={cuenta.cutoff_date}
@@ -156,7 +144,7 @@ const HomeScreen = ({navigation}) => {
         <Button title='DatePicker' onPress={()=>showMode('date')}/>
 </View>*/}
 
-    {/*show && (
+      {/*show && (
       <DateTimePicker
         testID='datepicker'
         value={date}
@@ -164,7 +152,7 @@ const HomeScreen = ({navigation}) => {
         display= 'default'
         onChange={onChangeDate}
     />)*/}
-{/*}
+      {/*}
       <DatePicker 
         selected={cuenta.cutoff_date} 
         onChange={(text) => changeCuenta(text, "cutoff_date")} 
@@ -174,7 +162,7 @@ const HomeScreen = ({navigation}) => {
       <MyBoton text="GUARDAR" onPress={enviarCuenta} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -197,15 +185,14 @@ const styles = StyleSheet.create({
         selected={cuenta.cutoff_date} 
         onChange={(text) => changeCuenta(text, "cutoff_date")} 
       />*/
-  
-  /*<DatePicker 
+
+/*<DatePicker 
         date = {cuenta.cutoff_date}
         mode="date"
         onDateChange={(text) => changeCuenta(text, "cutoff_date")}
       />*/
 
-
-  /*
+/*
   (
     <View style={styles.container}>
       
@@ -229,4 +216,3 @@ const styles = StyleSheet.create({
 */
 
 export default HomeScreen;
-

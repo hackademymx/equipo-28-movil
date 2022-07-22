@@ -1,92 +1,101 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import React, {createContext, useEffect, useState} from 'react';
-import {BASE_URL} from '../config';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import React, { createContext, useEffect, useState } from "react";
+import { BASE_URL } from "../config";
 
 export const AuthContext = createContext();
 /*AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setIsLoading(false);*/
-export const AuthProvider = ({children}) => {
-    const [userInfo, setUserInfo] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
-    const [splashLoading, setSplashLoading] = useState(false);
+export const AuthProvider = ({ children }) => {
+  const [userInfo, setUserInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [splashLoading, setSplashLoading] = useState(false);
+ 
 
-    const register = (email, password) => {
-        setIsLoading(true);
-        axios
-            .post(`${BASE_URL}/auth/signup/`, {
-                email,
-                password,
-            })
-            .then(res => {
-                let userInfo = res.data;
-                setUserInfo(userInfo);
-                AsyncStorage.setItem('userInfo', JSON.stringify(userInfo)); //buscar esta cosa
-                setIsLoading(false);
-                console.log(userInfo);
-                alert('Usuario exitosamente registrado. Ve a Login.');
-            })
-            .catch(e => {
-                console.log(`register error ${e}`);
+  const register = (email, password) => {
+    setIsLoading(true);
+    axios
+      .post(`${BASE_URL}/auth/signup/`, {
+        email,
+        password,
+      })
+      .then((res) => {
+        let userInfo = res.data;
+        setUserInfo(userInfo);
+        AsyncStorage.setItem("userInfo", JSON.stringify(userInfo)); //buscar esta cosa
+        setIsLoading(false);
+        console.log(userInfo);
+        alert("Usuario exitosamente registrado. Ve a Login.");
+      })
+      .catch((e) => {
+        console.log(`register error ${e}`);
 
-                setIsLoading(false);
-                alert(e);
-            });
-    };
+        setIsLoading(false);
+        alert(e);
+      });
+  };
 
-    const login = (email, password) => {
-        setIsLoading(true);
-    
-        axios
-          .post(`${BASE_URL}/auth/login/`, {
-            email,
-            password,
-          })
-          .then(res => {
-            let userInfo = res.data; //porqué hay que ponerle el let?
-            console.log(userInfo);
-            setUserInfo(userInfo);
-            AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-            setIsLoading(false);
-            //console.log(userInfo.tokens.access);
-          })
-          .catch(e => { //un error es cualquier cosa que no sea un 400?
-            console.log(`login error ${e}`);
+  const login = (email, password) => {
+    setIsLoading(true);
 
-            setIsLoading(false);
-            alert(e);
-          });
-      };
+    axios
+      .post(`${BASE_URL}/auth/login/`, {
+        email,
+        password,
+      })
+      .then((res) => {
+        let userInfo = res.data; //porqué hay que ponerle el let?
+        console.log(userInfo);
+        setUserInfo(userInfo);
+        AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+        setIsLoading(false);
+        //console.log(userInfo.tokens.access);
+      })
+      .catch((e) => {
+        //un error es cualquier cosa que no sea un 400?
+        console.log(`login error ${e}`);
 
-      const isLoggedIn = async () => {
-        try {
-          setSplashLoading(true);
-          let userInfo = await AsyncStorage.getItem('userInfo');
-          userInfo = JSON.parse(userInfo);
+        setIsLoading(false);
+        alert(e);
+      });
+  };
 
-          if(userInfo){
-            setUserInfo(userInfo);
-            
-          }
-          setSplashLoading(false);
-        } catch(e) {
-          setSplashLoading(false);
-          console.log(`is logged in error ${e}`);
-        }
+  const isLoggedIn = async () => {
+    try {
+      setSplashLoading(true);
+      let userInfo = await AsyncStorage.getItem("userInfo");
+      userInfo = JSON.parse(userInfo);
 
-      };
+      if (userInfo) {
+        setUserInfo(userInfo);
+      }
+      setSplashLoading(false);
+    } catch (e) {
+      setSplashLoading(false);
+      console.log(`is logged in error ${e}`);
+    }
+  };
 
-      // useEffect(() => {
-      //   isLoggedIn();
-      // }, []);
+  useEffect(() => {
+    isLoggedIn();
+  }, []);
 
-      const logout = () => {
-        setUserInfo({})
-        setIsLoading(false)
-      };
-      
+  const logout = () => {
+    setUserInfo({});
+    setIsLoading(false);
+  };
 
-    return (<AuthContext.Provider value={{register, userInfo, login, splashLoading, isLoading, logout }}>{children}</AuthContext.Provider>);
+//   const sendEmailResetPassword = async(recuperacion) => {
+
+//  }
+
+ return (
+    <AuthContext.Provider
+      value={{ register, userInfo, login, splashLoading, isLoading, logout }}
+    >
+      {children}
+    </AuthContext.Provider>
+);
 };
 
 /*

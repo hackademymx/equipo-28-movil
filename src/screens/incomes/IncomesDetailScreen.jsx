@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState, useLayoutEffect } from "react";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+ } from "react-native";
 import { useRoute, useIsFocused } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { AuthContext } from "../../context/AuthContext";
@@ -44,109 +51,48 @@ const IncomesDetailScreen = ({ navigation }) => {
       const response = await request({
         method: "get",
         url: `/movements/detail/${incId}`,
-      }); //sin el último slash
+      }); 
 
       setLoading(false);
       setIncomes(response.data);
-     
     } catch (error) {
-      //const data = error.response.data;
       setLoading(false);
-      // setError(data.msg ? data.msg : data.error);
       console.error(error);
       alert(error);
     }
   };
 
-  const modifyIncome = async () => {
-    try {
-      let incId = route.params.id;
-      console.log(incId);
-      setLoading(true);
-      const response = await request({
-        data: incomes,
-        method: "put",
-        url: `/movements/detail/${incId}`,
-      }); //sin el último slash
-      setLoading(false);
-      navigation.navigate("IncomesList");
-      alert("Se actualizó Ingreso");
-
-      //estari cool que navegara al stacks
-    } catch (error) {
-      setLoading(false);
-      // setError(data.msg ? data.msg : data.error);
-      console.error(error);
-      alert(error);
-    }
-  };
-
-  const deleteIncome = async () => {
-    try {
-      let incId = route.params.id;
-      console.log("Intento eliminar Id de cuenta " + accId);
-      setLoading(true);
-      const response = await request({
-        method: "delete",
-        url: `/movements/detail/${incId}`,
-      }); //sin el último slash
-      setLoading(false);
-      navigation.navigate("IncomesList");
-      alert("Se eliminó Ingreso");
-
-      //estari cool que navegara al stacks
-    } catch (error) {
-      setLoading(false);
-      // setError(data.msg ? data.msg : data.error);
-      console.error(error);
-      alert(error);
-    }
+  const modifyIncome = () => {
+    navigation.navigate("IncomesModify", incomes);
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
-      <MyTextInput
-        label="Concepto del Ingreso:"
-  
-        value={incomes.flow_type}
-        setValue={(text) => updateIncomes(text, "flow_type")}
-      />
+      <View style={styles.caption}>
+        <Text style={styles.description}>Concepto del Ingreso</Text>
+        <Text style={styles.value}> {incomes.flow_type} </Text>
+      </View>
 
-      {/* <MyTextInput
-        label="Fecha:"
-        place={incomes.incomes_date}
-        value={incomes.incomes_date}
-        setValue={(text) => updateIncomes(text, "incomes_date")}
-      /> */}
+      <View style={styles.caption}>
+        <Text style={styles.description}>Monto</Text>
+        <Text style={styles.value}> {incomes.amount} </Text>
+      </View>
 
-      <MyTextInput
-        label="Monto:"
-        place={incomes.amount}
-        value={incomes.amount}
-        setValue={(text) => updateIncomes(text, "amount")}
-      />
+      <View style={styles.caption}>
+        <Text style={styles.description}>Descripción</Text>
+        <Text style={styles.value}> {incomes.description} </Text>
+      </View>
 
-      <MyTextInput
-        label="Descripcion:"
-        place={incomes.description}
-        value={incomes.description}
-        setValue={(text) => updateIncomes(text, "description")}
-      />
+      <View style={styles.caption}>
+        <Text style={styles.description}>Cuenta</Text>
+        <Text style={styles.value}> {incomes.account_fkey?.account_name} </Text>
+      </View>
 
-      <MyTextInput
-        label="Cuenta:"
-        place={incomes.account_fkey?.account_name}
-        value={incomes.account_fkey?.account_name}
-        setValue={(text) => updateIncomes(text, "account_fkey?.account_name")}
-      />
       <TouchableOpacity style={styles.boton1} onPress={modifyIncome}>
-        <Text style={styles.texto1}>Actualizar</Text>
+        <Text style={styles.texto1}>¿Deseas modificar este Ingreso? </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boton2} onPress={deleteIncome}>
-        <Text style={styles.texto1}>Eliminar</Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -167,32 +113,11 @@ const styles = StyleSheet.create({
   },
   boton1: {
     backgroundColor: "#000",
-    height: 30,
-    width: 162,
-    borderWidth: 2,
+    borderWidth: 1,
     padding: 10,
-    margin: 0,
-    marginVertical: -0,
     borderColor: "#000",
     borderRadius: 10,
-    alignSelf: "flex-start",
-    position: "fixed",
-    bottom: 50,
-    right: "5%",
-  },
-  boton2: {
-    backgroundColor: "#000",
-    height: 30,
-    width: 162,
-    borderWidth: 2,
-    padding: 10,
-    marginVertical: -20,
-    borderColor: "#000",
-    borderRadius: 10,
-    alignSelf: "flex-end",
-    position: "fixed",
-    bottom: 70,
-    right: "52%",
+    alignSelf: "center",
   },
   texto1: {
     fontFamily: "Calibri",
@@ -200,6 +125,20 @@ const styles = StyleSheet.create({
     color: "#fff",
     alignSelf: "center",
     padding: 0,
+  },
+  caption: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 5,
+    paddingHorizontal: 5,
+  },
+  description: {
+    fontWeight: "700",
+    color: "#B5A8A6",
+  },
+  value: {
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
 
