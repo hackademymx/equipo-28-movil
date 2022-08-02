@@ -19,7 +19,7 @@ const Meta = ({ navigation }) => {
     amount: "",
     period: "",
     goal_color: "",
-    total: "",
+    // total: "",
     account_savings: "",
   };
   const [meta, setMeta] = React.useState(goalsDefault);
@@ -167,12 +167,12 @@ const Meta = ({ navigation }) => {
         )}
       </Picker>
 
-      <MyTextInput
+      {/* <MyTextInput
         label="Total:"
         place=" "
         value={meta.total}
         setValue={(text) => changeMeta(text, "total")}
-      />
+      /> */}
 
       <MyBoton text="GUARDAR" onPress={enviarMeta} />
     </View>

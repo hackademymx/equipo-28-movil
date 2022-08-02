@@ -85,7 +85,52 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   };
 
-//   const sendEmailResetPassword = async(recuperacion) => {
+
+  const requestPassword = (email, password) => {
+    setIsLoading(true);
+    axios
+      .post(`${BASE_URL}/auth/request-reset-email/`, {
+        email,
+        password,
+      })
+      .then((res) => {
+        let userInfo = res.data;
+        setUserInfo(userInfo);
+        AsyncStorage.setItem("userInfo", JSON.stringify(userInfo)); //buscar esta cosa
+        setIsLoading(false);
+        console.log(userInfo);
+        alert("Revisa tu correo. Proporciona nueva contraseña{}.");
+      })
+      .catch((e) => {
+        console.log(`register error ${e}`);
+
+        setIsLoading(false);
+        alert(e);
+      });
+  };
+
+  const resetPassword = (email, password) => {
+    setIsLoading(true);
+    axios
+      .post(`${BASE_URL}/auth/password-reset-complete/`, {
+        email,
+        password,
+      })
+      .then((res) => {
+        let userInfo = res.data;
+        setUserInfo(userInfo);
+        AsyncStorage.setItem("userInfo", JSON.stringify(userInfo)); //buscar esta cosa
+        setIsLoading(false);
+        console.log(userInfo);
+        alert("Tu contraseña se ha modificado. Ve a Login.");
+      })
+      .catch((e) => {
+        console.log(`register error ${e}`);
+
+        setIsLoading(false);
+        alert(e);
+      });
+  };
 
 //  }
 

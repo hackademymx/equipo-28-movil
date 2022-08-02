@@ -1,75 +1,62 @@
-// import React, {useState} from "react";
-// import {Alert, StyleSheet, View} from "react-native";
-// import {Icon, Input} from "react-native-elements";
-// import { MyBoton } from "../../components";
+import React, { useState } from "react";
+import {StyleSheet, View, Text} from "react-native";
+import request from "../../api";
+import { MyBoton, MyTextInput } from "../../components";
 
+export default function ChangePassword({ navigation }) {
+  const [codigo, setCodigo] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-// export default function RecoverPassword({navigation}) {
-//     const[recuperacion, setRecuperacion ]= useState("")
-//     const[errorRecupera, setErrorRecupera]= useState(null)
-//     const[loading, setLoading]= useState(false)
+  const sendCodigo = async () => {
+    try {
+      if (codigo === "") {
+        return setError("Completa el campo de codigo");
+      }
+      setLoading(true);
+      const { data } = await request({
+        url: "/auth/password-reset-complete/",
+        method: "patch",
+        data: { codigo },
+      });
+      setSuccess(true);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError("Ocurrio un error con el codigo");
+    }
+  };
 
-//     const onSubmit = async() => {
-//         if (!validateData()) {
-//             return
-//         }
-        
-//         setLoading(true)
-//         const result = await sendEmailResetPassword
-//         setLoading(false)
+  return (
+    <View style={styles.formContainer}>
+      <MyTextInput
+        label="Ingresa codigo 1:"
+        value={email}
+        setValue={(text) => setEmail(text)}
+      />
+    {success && <Text style={styles.verde}>Se han enviado las instrucciones a tu correo</Text>}
+    {error && <Text style={styles.rojo}>{error}</Text>}
+      <MyBoton text={loading ? "Enviando..." : "Enviar"} onPress={sendEmail} />
+    </View>
+  );
+}
 
-//         if(!result.statusResponse) {
-//             Alert.alert ("Error", "El correo no está relacionado a ningún usuario registrado")
-//             return
-//     } 
-//             Alert.alert ("Confirmación", "Se le ha enviado un correo con instrucciones para cambiar contraseña")
-//             navigation.navigate()
-        
-//     const validateData = () => {
-//         setErrorRecupera(null)
-//         let valid = true
-
-//         if(!validateEmail(recuperacion)){
-//             setErrorRecupera("Debes ingresar correo válido")
-//             valid = false
-//         }
-//         return valid
-//     }
-
-//     return(
-//         <View style={styles.formContainer}>
-//             <Input
-//                 placeholder="Ingresa tu correo"
-//                 containerStyle= {styles.inputForm}
-//                 onChange= {(e)=> setRecuperacion(e.nativeEvent.text)}
-//                 defaultValue={recuperacion}
-//                 errorMessage={errorRecupera}
-//                 keyboardType="email-address"
-//                 rightIcon={
-//                     <Icon
-//                         type="material-community"
-//                         name="at"
-//                         iconStyle={styles.icon}
-//                     />
-//                 }
-//             />
-
-//             <MyBoton text="Recuperar contraseña" onPress={onSubmit} />
-//         </View>
-//     )
-// };
-
-// const styles = StyleSheet.create({
-//     formContainer:{
-//         flex:1,
-//         alignItems: "center",
-//         justifyContent: "center",
-//         marginTop: 30,
-//     },
-//     inputForm:{
-//         width: "90%",
-        
-//     },
-    
-
-// });
+const styles = StyleSheet.create({
+  formContainer: {
+    flex: 1,
+    display: "flex",
+    flexDirection:"column",
+    justifyContent:"center",
+    padding: 10,
+   },
+  inputForm: {
+    width: "90%",
+  },
+  verde:{
+    color: "#3BAA1D",
+  },
+  rojo:{
+    color: "#9D1D0C",
+  },
+});

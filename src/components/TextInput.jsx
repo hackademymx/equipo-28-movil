@@ -1,3 +1,4 @@
+import reactDom from "react-dom";
 import { TextInput, StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 

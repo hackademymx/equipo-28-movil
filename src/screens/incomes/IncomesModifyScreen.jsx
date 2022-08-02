@@ -66,7 +66,7 @@ const IncomesModifyScreen = ({ navigation }) => {
   const deleteIncome = async () => {
     try {
       let incId = route.params.id;
-      console.log("Intento eliminar Id de cuenta " + accId);
+      console.log("Intento eliminar Id de cuenta " + incId);
       setLoading(true);
       const response = await request({
         method: "delete",

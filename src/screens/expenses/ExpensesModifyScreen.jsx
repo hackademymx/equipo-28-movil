@@ -101,12 +101,12 @@ const ExpensesModifyScreen = ({ navigation }) => {
         setValue={(text) => updateExpenses(text, "amount")}
       />
 
-      <MyTextInput
+      {/* <MyTextInput
         label="Cuenta Asociada:"
         place={gasto.account_fkey}
         value={gasto.account_fkey}
         setValue={(text) => updateExpenses(text, "account_fkey")}
-      />
+      /> */}
 
       <TouchableOpacity style={styles.boton1} onPress={modifyExpenses}>
         <Text style={styles.texto1}>Actualizar</Text>
