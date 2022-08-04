@@ -1,14 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  Button,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  Image,
-} from "react-native";
-import Spinner from "react-native-loading-spinner-overlay";
+import { Text, View, StyleSheet, Image } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import { passwordValidation } from "../../../utils/validation";
 import { MyTextInput, MyBoton } from "../../components";
@@ -24,17 +15,12 @@ const LoginScreen = ({ navigation }) => {
 
   const { isLoading, login, userInfo } = useContext(AuthContext);
 
-  const checkForm = () => {
-    if (User.email === "") {
-      return alert("Necesita llenar el campo del Correo");
-    }
-
+  const regresarInicio = () => {
     if (!passwordValidation.test(User.password)) {
-      return alert(
-        "La contraseña debe contener 6-20 Caracteres 1Mayusc, 1Caracter, 1Núm."
-      );
+      return alert("La contraseña debe contener 6-20 Caracteres 1Mayusc, 1Caracter, 1Núm.");
     }
 
+    
     login(User.email, User.password);
   };
 
@@ -50,56 +36,31 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
-      <Text style={styles.ingresaTexto}> Bienvenido</Text>
+      <Text style={styles.ingresaTexto}> Ingresa Codigos </Text>
       <MyTextInput
-        label="Correo electrónico"
-        place="e.g. tu_nombre@mail.com"
-        value={User.email}
-        setValue={(text) => changeUser(text, "email")}
+        label="Codigo de acceso 1"
+        place=" "
+        value={User.uidb64}
+        setValue={(text) => changeUser(text, "uidb64")}
       />
-
       <MyTextInput
-        label="Contraseña"
-        place="6-20 Caracteres 1Mayusc, 1Caracter, 1Núm."
-        security={!PasswordVisible}
+        label="Codigo de acceso 2"
+        place=" "
+        value={User.token}
+        setValue={(text) => changeUser(text, "token")}
+      />
+      <MyTextInput
+        label="Nueva Contraseña"
+        place=" "
         value={User.password}
         setValue={(text) => changeUser(text, "password")}
-        icon={PasswordVisible ? "eye-slash" : "eye"}
-        onIconclick={() => setPasswordVisible(!PasswordVisible)}
+        // security={!PasswordVisible}
+        // value={User.pass}
+        // setValue={(text) => changeUser(text, "password")}
+        // icon={PasswordVisible ? "eye-slash" : "eye"}
+        // onIconclick={() => setPasswordVisible(!PasswordVisible)}
       />
-      <Text style={styles.errortext}>{Error}</Text>
-      <View style={styles.miBotonContener}>
-        {isLoading ? (
-          <Spinner visible={isLoading} />
-        ) : (
-          <MyBoton text="INICIA SESION" onPress={checkForm} />
-        )}
-      </View>
-
-      <View
-        style={{
-          flexDirection: "row",
-          marginTop: 10,
-          justifyContent: "center",
-        }}
-      >
-        <Text>¿Aún no tienes cuenta? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={styles.link}>Regístrate</Text>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          marginTop: 10,
-          justifyContent: "center",
-        }}
-      >
-        <Text>¿Olvidaste tu contraseña? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("ResetPassword")}>
-          <Text style={styles.link}>Recupérala</Text>
-        </TouchableOpacity>
-      </View>
+      <MyBoton text={"Modificar contraseña"} onPress={regresarInicio} />
     </View>
   );
 };
@@ -146,6 +107,5 @@ const styles = StyleSheet.create({
     color: "blue",
   },
 });
-
 
 export default LoginScreen;

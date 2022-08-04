@@ -103,7 +103,7 @@ const Meta = ({ navigation }) => {
     <View style={styles.container}>
       <Image source={ImgLogo} style={styles.logoMoney} />
       <MyTextInput
-        label="Concepto de Meta:"
+        label="Concepto de la Meta:"
         place=" "
         value={meta.concept}
         setValue={(text) => changeMeta(text, "concept")}

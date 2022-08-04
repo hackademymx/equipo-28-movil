@@ -47,7 +47,7 @@ const MetaList = ({ navigation }) => {
     deleteData(idx);
   };
 
-  const metaDetail = ({ ...sav }) => {
+  const metaDetail = ({ ...met }) => {
     //console.log('POD'+acc.id+'-')
     navigation.navigate("MetaDetail");
   };
@@ -62,7 +62,7 @@ const MetaList = ({ navigation }) => {
           >
             <View style={styles.metItem}>
               <Text>
-                {met.meta.concept}-{met.account_savings}-{met.ahorro.total}
+                {met.concept}-{met.total}
               </Text>
             </View>
           </TouchableOpacity>

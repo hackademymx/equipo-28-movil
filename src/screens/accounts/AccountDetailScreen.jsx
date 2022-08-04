@@ -58,7 +58,7 @@ const AccountDetailScreen = ({ navigation }) => {
   console.log(account.account_name);
 }, [account]);*/
 
-  const getAccountDetail = async () => {      
+  const getAccountDetail = async () => {
     try {
       let accId = route.params.id;
       console.log("Id de cuenta" + accId);
@@ -83,9 +83,10 @@ const AccountDetailScreen = ({ navigation }) => {
   const modifyAccount = async () => {
     try {
       let accId = route.params.id;
-      
+
       setLoading(true);
-      const response = await request({data:account,
+      const response = await request({
+        data: account,
         method: "put",
         url: `/accounts/${accId}`,
       }); //sin el último slash
@@ -100,7 +101,7 @@ const AccountDetailScreen = ({ navigation }) => {
       console.error(error);
       alert(error);
     }
-    };
+  };
 
   const deleteAccount = async () => {
     try {

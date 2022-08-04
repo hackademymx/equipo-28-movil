@@ -16,13 +16,12 @@ import { MyTextInput, MyBoton } from "../../components";
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
   const [User, setUser] = useState({ email: "", password: "" });
-  const [password, setPassword] = useState("");
+
   const [PasswordVisible, setPasswordVisible] = useState(false);
   const [Error, setError] = useState("");
 
-  const { isLoading, login, userInfo } = useContext(AuthContext);
+  const { isLoading, login } = useContext(AuthContext);
 
   const checkForm = () => {
     if (User.email === "") {
@@ -96,7 +95,9 @@ const LoginScreen = ({ navigation }) => {
         }}
       >
         <Text>¿Olvidaste tu contraseña? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("ResetPassword")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("RecoverPassword")}
+        >
           <Text style={styles.link}>Recupérala</Text>
         </TouchableOpacity>
       </View>

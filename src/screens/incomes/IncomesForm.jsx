@@ -28,8 +28,7 @@ const IncomesHomeScreen = ({ navigation }) => {
   const [PickerItems, SetPickerItems] = React.useState();
   const [startDate, setStartDate] = React.useState(new Date());
   const [Loading, setLoading] = React.useState(false);
-
-  //const {userInfo} = useContext(AuthContext);
+ 
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -53,21 +52,21 @@ const IncomesHomeScreen = ({ navigation }) => {
     }
   };
 
+  
   const enviarIngreso = async () => {
-   
     try {
       setLoading(true);
       const response = await request({
         method: "post",
         url: "/movements/",
         data: ingreso,
-      }); 
+      });
 
       setLoading(false);
       alert("Nuevo Ingreso registrado");
     } catch (error) {
       setLoading(false);
-    
+
       console.error(error);
       alert(error);
     }
