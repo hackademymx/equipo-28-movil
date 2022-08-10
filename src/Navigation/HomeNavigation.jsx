@@ -18,6 +18,7 @@ import IncomesNavigator from "./incomes/IncomesNavigation";
 import SavingsNavigator from "./Savings/SavingsNavigation";
 import GoalsNavigator from "./goals/GoalsNavigation";
 import Logout from '../screens/auth/Logout';
+import payload from "../screens/balance/BalanceForm"
 
 const ImgLogo = require("../../assets/MLogo.jpg");
 
@@ -33,17 +34,16 @@ const HomeNavigation = ({navigation}) => {
 
     return (
         <Home.Navigator initialRouteName="Home" >
-            {/*<Home.Screen name="MainPage" component={MainPage}/>*/}
-            <Home.Screen name ="Home" component={Gu}/>
-            {/*<Home.Screen name="Cuentas" component={HomeScreen}/>*/}
+            <Home.Screen name ="Inicio" component={Gu}/>
             <Home.Screen name="Cuentas" component={AccountsNavigator}/>
             <Home.Screen name="Etiquetas" component={TagsNavigator}/>
             <Home.Screen name="Gastos" component={ExpensesNavigator}/>
             <Home.Screen name="Ingresos" component={IncomesNavigator}/>
             <Home.Screen name="Ahorros" component={SavingsNavigator}/>
             <Home.Screen name="Metas" component={GoalsNavigator}/>
+            <Home.Screen name="Balance" component={payload}/>
             <Home.Screen name="Cerrar Sesion" component={Logout}/>
-            {/*<Home.Screen name="Cuentas" component={HomeScreen}/>*/}
+           
             
         </Home.Navigator>
     );

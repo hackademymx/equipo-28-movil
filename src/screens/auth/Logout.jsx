@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Button } from "react-native";
+import { MyBoton } from "../../components";
 import { AuthContext } from "../../context/AuthContext";
 
 
@@ -8,7 +8,7 @@ const Logout = ({ navigation }) => {
     const {logout} = React.useContext(AuthContext)
   return (
     <View>
-      <Button title="Cerrar sesion" onPress={logout}/>
+      <MyBoton title="Cerrar sesion" text= "Cerrar sesión" onPress={logout}  />
     </View>
   );
 };
