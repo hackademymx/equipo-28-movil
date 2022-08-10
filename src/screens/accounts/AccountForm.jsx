@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-import Spinner from "react-native-loading-spinner-overlay";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";

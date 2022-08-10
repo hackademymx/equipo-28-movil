@@ -59,8 +59,8 @@ const GoalsDetailScreen = ({ navigation }) => {
     }
   };
 
-  const modifyMeta = () => {
-    navigation.navigate("ModifyMeta", meta);
+  const viewListMeta = () => {
+    navigation.navigate("MetaList", meta);
   };
 
   return (
@@ -91,8 +91,8 @@ const GoalsDetailScreen = ({ navigation }) => {
         <Text style={styles.value}> {meta.total} </Text>
       </View>
 
-      <TouchableOpacity style={styles.boton1} onPress={modifyMeta}>
-        <Text style={styles.texto1}>¿Deseas modificar esta Meta?</Text>
+      <TouchableOpacity style={styles.boton1} onPress={viewListMeta}>
+        <Text style={styles.texto1}>Regresa al listado</Text>
       </TouchableOpacity>
       
       </SafeAreaView>

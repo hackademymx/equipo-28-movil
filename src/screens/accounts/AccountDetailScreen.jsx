@@ -23,20 +23,8 @@ const ImgLogo = require("../../../assets/MLogo.jpg");
 const AccountDetailScreen = ({ navigation }) => {
   const route = useRoute(); //en vez de navigation.getParams
   const [account, setAccount] = useState({});
-  //const [account, setAccount] = useState([]);
   const isFocused = useIsFocused();
   const [Loading, setLoading] = useState(false);
-  /*const [account, setAccount] = useState({
-    account_name: "",
-    type_account: "",
-    account_num: "",
-    current_balance: "",
-    account_cbe: "",
-    cutoff_date: "",
-  });*/
-
-  //const [isLoading, setLoading] = React.useState(false);
-
   const { userInfo } = useContext(AuthContext);
 
   const updateAccount = (text, name) => {
@@ -52,11 +40,6 @@ const AccountDetailScreen = ({ navigation }) => {
     }
   }, [isFocused]);
 
-  /*useLayoutEffect(()=>{
-  console.log('ya está la cuenta');
-  console.log(account);
-  console.log(account.account_name);
-}, [account]);*/
 
   const getAccountDetail = async () => {
     try {
