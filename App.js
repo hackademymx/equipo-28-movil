@@ -9,6 +9,9 @@ import 'react-native-gesture-handler'
 const App = () => {
   return (
     <AuthProvider>
+      <p>
+        Deploy con Netlify
+      </p>
       <StatusBar backgroundColor="#06bcee" />
       <Navigation />
     </AuthProvider>
