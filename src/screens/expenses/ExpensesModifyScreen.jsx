@@ -32,13 +32,14 @@ const ExpensesModifyScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (isFocused) {
+      console.log(route.params);
       setGasto({
         ...route.params,
-        account_fkey: route.params.account_fkey.id,
+        account_fkey: route.params.account_fkey,
       });
     }
   }, [isFocused]);
-  console.log(gasto);
+
 
   const modifyExpenses = async () => {
     try {

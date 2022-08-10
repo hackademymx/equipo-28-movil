@@ -41,14 +41,7 @@ const ExpensesList = ({ navigation }) => {
     }
   };
 
-  const eliminarElemento = async (idx) => {
-    const response = await axios.delete(`${BASE_URL}/movements/${idx}`);
-    deleteData(idx);
-  };
 
-  const expensesDetail = ({ ...exp }) => {
-    navigation.navigate("ExpensesDetail");
-  };
 
   return (
     <ScrollView style={styles.container}>

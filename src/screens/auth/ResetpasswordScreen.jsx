@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import { passwordValidation } from "../../../utils/validation";
@@ -6,23 +6,37 @@ import { MyTextInput, MyBoton } from "../../components";
 
 const ImgLogo = require("../../../assets/MLogo.jpg");
 
-const LoginScreen = ({ navigation }) => {
+const ResetPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [User, setUser] = useState({ email: "", password: "" });
   const [password, setPassword] = useState("");
   const [PasswordVisible, setPasswordVisible] = useState(false);
-  const [Error, setError] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const { isLoading, login, userInfo } = useContext(AuthContext);
-
-  const regresarInicio = () => {
+    const cambiarContraseña = async () => {
+      try {
     if (!passwordValidation.test(User.password)) {
       return alert("La contraseña debe contener 6-20 Caracteres 1Mayusc, 1Caracter, 1Núm.");
     }
 
     
-    login(User.email, User.password);
-  };
+    login(User.uidb64, User.password, User.token);
+    setLoading(true);
+    const { data } = await request({
+      url: "/auth/password-reset-complete/",
+      method: "patch",
+      data: { password, token, uidb64},
+    });
+    setSuccess(true);
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+    setError("Ocurrio un error con la contraseña");
+  }
+  }
+
 
   const changeUser = (text, name) => {
     setUser({
@@ -31,6 +45,19 @@ const LoginScreen = ({ navigation }) => {
     });
   };
 
+
+   
+    
+  
+
+  useEffect(() =>  {
+
+    if (success) {
+      navigation.navigate("Login")
+    }
+  }, [success])
+
+  
   //const val = useContext(AuthContext);
 
   return (
@@ -60,7 +87,7 @@ const LoginScreen = ({ navigation }) => {
         // icon={PasswordVisible ? "eye-slash" : "eye"}
         // onIconclick={() => setPasswordVisible(!PasswordVisible)}
       />
-      <MyBoton text={"Modificar contraseña"} onPress={regresarInicio} />
+      <MyBoton text={"Modificar contraseña"} onPress={cambiarContraseña} />
     </View>
   );
 };
@@ -108,4 +135,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default ResetPassword;
